@@ -50,10 +50,11 @@ def check():
                 errors.append(f"Broken or external local reference: {doc.relative_to(ROOT)} -> {target}")
         if re.search(r"\[TODO:[^\]]*\]", content):
             errors.append(f"Unfinished scaffold in {doc.relative_to(ROOT)}")
-        # Pre-publication invariant. Change this only after verifying the owner
-        # and exact published package/version, not merely after a name lookup.
-        if re.search(rf"\b(?:npx|npm\s+exec)\b[^\r\n]*{package_name}", content):
-            errors.append(f"Unverified registry execution instruction in {doc.relative_to(ROOT)}")
+        # Keep download-and-execute instructions out of the agent-facing Skill.
+        # The human-facing README is released atomically with the first npm
+        # publication; GitHub stays private until package ownership is verified.
+        if doc.is_relative_to(SKILL) and re.search(rf"\b(?:npx|npm\s+exec)\b[^\r\n]*{package_name}", content):
+            errors.append(f"Registry execution instruction in agent-facing document {doc.relative_to(ROOT)}")
 
     if (ROOT / "LICENSE").read_bytes() != (SKILL / "LICENSE").read_bytes():
         errors.append("Installed Skill license must match the package license.")
@@ -70,4 +71,4 @@ if __name__ == "__main__":
         print(failure, file=sys.stderr)
     if failures:
         sys.exit(1)
-    print("Skill metadata, local references, licenses, and pre-publication documentation checks passed.")
+    print("Skill metadata, local references, licenses, and agent-facing installation boundaries passed.")

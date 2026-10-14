@@ -4,7 +4,7 @@ A project-aware Skill for designing and improving Claude Code subagents. Run the
 
 The host AI reads your project, decides whether separate agents are useful, and proposes roles, models, tools, and handoffs. It can also update existing project agents while preserving unrelated instructions and metadata. A small Python checker validates the generated files without executing them.
 
-**Alpha preview.** End-to-end host behavior and language-by-language performance remain unverified. Install from reviewed source as described below, or follow the verified npm installation instructions in the [GitHub release](https://github.com/ChiwooSong/configure-subagents/releases). Do not infer a registry download command from this project's name.
+**Alpha preview.** End-to-end host behavior and language-by-language performance remain unverified. Successful installation is distinct from successful Skill discovery or execution.
 
 ## What it does
 
@@ -16,7 +16,21 @@ The host AI reads your project, decides whether separate agents are useful, and 
 
 It does not configure Codex agents, orchestrate project work, call generated agents by default, or grant system permissions.
 
-## Manual installation
+## Installation
+
+Requires Node.js 22 or newer. Choose the host you use:
+
+```sh
+npx configure-subagents@next install --host claude
+npx configure-subagents@next install --host codex
+npx configure-subagents@next install --host both --project ./my-project
+```
+
+The npm publisher is `woody_s`; the source repository is `ChiwooSong/configure-subagents`. Check the [release](https://github.com/ChiwooSong/configure-subagents/releases) for the verified version and package integrity. For reproducible installation of this alpha, replace `@next` with `@0.1.0-alpha.1`. If that package/version is unavailable or ownership differs, stop instead of substituting another package.
+
+The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
+
+### Manual installation
 
 Copy the `configure-subagents` folder from your reviewed source tree, including its LICENSE, to the desired project location:
 
