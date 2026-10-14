@@ -1,0 +1,30 @@
+{
+  "name": "configure-subagents",
+  "version": "0.1.0-alpha.1",
+  "description": "A project-aware Skill for designing and improving Claude Code subagents, usable from Claude Code or Codex.",
+  "type": "module",
+  "bin": { "configure-subagents": "bin/configure-subagents.js" },
+  "engines": { "node": ">=22" },
+  "license": "MIT",
+  "author": "Chiwoo Song",
+  "repository": { "type": "git", "url": "git+https://github.com/ChiwooSong/configure-subagents.git" },
+  "homepage": "https://github.com/ChiwooSong/configure-subagents#readme",
+  "bugs": { "url": "https://github.com/ChiwooSong/configure-subagents/issues" },
+  "keywords": ["agent-skills", "claude-code", "codex", "subagents", "ai"],
+  "publishConfig": { "access": "public", "tag": "next", "registry": "https://registry.npmjs.org/" },
+  "files": [
+    "bin/configure-subagents.js",
+    "lib/install.js",
+    "configure-subagents/SKILL.md",
+    "configure-subagents/LICENSE",
+    "configure-subagents/requirements.txt",
+    "configure-subagents/references/*.md",
+    "configure-subagents/scripts/validate_agents.py"
+  ],
+  "scripts": {
+    "test": "node --test tests/install.test.js",
+    "test:python": "python -m unittest discover -s tests -v",
+    "check:skill": "python tests/check_skill.py",
+    "test:package": "node tests/package.test.js"
+  }
+}
