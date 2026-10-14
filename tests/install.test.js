@@ -261,6 +261,33 @@ test('CLI help, version, and empty invocation do not write files', t => {
   }
 });
 
+for (const agent of ['claude', 'codex', 'all']) {
+  test(`CLI --agent ${agent} installs only the selected hosts and interoperates with --host`, t => {
+    const root = fixture(t);
+    const result = run(root, ['install', '--agent', agent]);
+    assert.equal(result.status, 0, result.stderr);
+    for (const host of ['claude', 'codex']) {
+      if (agent === 'all' || agent === host) assertPayload(root, host);
+      else assert.equal(fs.existsSync(destination(root, host)), false);
+    }
+    const before = snapshot(root);
+    const repeated = run(root, ['install', '--host', agent === 'all' ? 'both' : agent]);
+    assert.equal(repeated.status, 0, repeated.stderr);
+    assert.match(repeated.stdout, /unchanged:/);
+    assert.deepEqual(snapshot(root), before);
+  });
+}
+
+test('CLI --agent all preflights both destinations without overwriting custom content', t => {
+  const root = fixture(t);
+  fs.mkdirSync(destination(root, 'codex'), { recursive: true });
+  fs.writeFileSync(path.join(destination(root, 'codex'), 'SKILL.md'), 'custom Skill');
+  const before = snapshot(root);
+  const result = run(root, ['install', '--agent', 'all']);
+  assert.equal(result.status, 1, result.stderr);
+  assert.deepEqual(snapshot(root), before);
+});
+
 test('CLI rejects missing, unknown, and duplicate arguments without changes', t => {
   const root = fixture(t);
   for (const args of [
@@ -268,6 +295,10 @@ test('CLI rejects missing, unknown, and duplicate arguments without changes', t 
     ['install', '--host', 'claude', '--force'], ['install', '--host', 'claude', '--project'],
     ['install', '--host', 'claude', '--host', 'codex'],
     ['install', '--host', 'claude', '--project', root, '--project', root],
+    ['install', '--agent'], ['install', '--agent', 'both'],
+    ['install', '--agent', 'all', '--agent', 'all'],
+    ['install', '--agent', 'all', '--host', 'both'],
+    ['install', '--host', 'codex', '--agent', 'claude'],
   ]) {
     const result = run(root, args);
     assert.equal(result.status, 2, `${args}: ${result.stderr}`);

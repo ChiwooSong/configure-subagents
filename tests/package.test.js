@@ -35,11 +35,11 @@ try {
   fs.mkdirSync(consumer);
   fs.writeFileSync(path.join(consumer, 'package.json'), '{"name":"local-package-test","version":"0.0.0","private":true}\n');
   execute(process.execPath, [npmCli, 'install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false', tarball], consumer);
-  const installed = path.join(consumer, 'node_modules', 'configure-subagents');
+  const installed = path.join(consumer, 'node_modules', ...packed[0].name.split('/'));
   const project = path.join(temp, '한글 target project');
   fs.mkdirSync(project);
   const script = path.join(installed, 'bin', 'configure-subagents.js');
-  const output = execute(process.execPath, [script, 'install', '--host', 'both', '--project', project]);
+  const output = execute(process.execPath, [script, 'install', '--agent', 'all', '--project', project]);
   assert.equal((output.match(/^installed:/gm) || []).length, 2);
   const before = [];
   for (const host of ['.claude', '.agents']) {
@@ -57,6 +57,7 @@ try {
     assert.deepEqual(fs.readFileSync(filename), bytes);
   }
   const metadata = JSON.parse(fs.readFileSync(path.join(installed, 'package.json'), 'utf8'));
+  assert.equal(metadata.name, '@woody_s/configure-subagents');
   assert.equal(metadata.license, 'MIT');
   assert.equal(metadata.publishConfig.tag, 'next');
   assert.equal(fs.readFileSync(path.join(installed, 'LICENSE'), 'utf8'), fs.readFileSync(path.join(packageRoot, 'LICENSE'), 'utf8'));

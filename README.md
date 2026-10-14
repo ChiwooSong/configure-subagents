@@ -18,17 +18,39 @@ It does not configure Codex agents, orchestrate project work, call generated age
 
 ## Installation
 
-Requires Node.js 22 or newer. Choose the host you use:
+Requires Node.js 22 or newer. Install for both supported tools, using the same scoped-package and `--agent all` convention as HTMLEdit:
 
 ```sh
-npx configure-subagents@next install --host claude
-npx configure-subagents@next install --host codex
-npx configure-subagents@next install --host both --project ./my-project
+npx --yes @woody_s/configure-subagents@next install --agent all
 ```
 
-The npm publisher is `woody_s`; the source repository is `ChiwooSong/configure-subagents`. Check the [release](https://github.com/ChiwooSong/configure-subagents/releases) for the verified version and package integrity. For reproducible installation of this alpha, replace `@next` with `@0.1.0-alpha.1`. If that package/version is unavailable or ownership differs, stop instead of substituting another package.
+Choose one tool or another project:
 
-The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
+```sh
+npx --yes @woody_s/configure-subagents@next install --agent claude
+npx --yes @woody_s/configure-subagents@next install --agent codex
+npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
+```
+
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.2`. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+
+The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
+
+### Migrating from the unscoped package
+
+Starting with `0.1.0-alpha.2`, new releases use **`@woody_s/configure-subagents`**. The old `configure-subagents@0.1.0-alpha.1` remains available for existing users; it is not deleted or silently redirected. Its npm deprecation notice points to this migration. Switch the package name in saved commands and scripts. The old version does not support `--agent`.
+
+| Earlier option | Preferred option in the scoped package |
+|---|---|
+| `--host claude` | `--agent claude` |
+| `--host codex` | `--agent codex` |
+| `--host both` | `--agent all` |
+
+All three `--host` options remain supported by the new package. Use one selector per command; combining `--host` and `--agent` is an error, even when they identify the same tools. `all` means Claude Code and Codex, the two supported hosts.
+
+The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. The Skill payload in alpha.2 is byte-identical to alpha.1, so running the new command over an unmodified old installation succeeds unchanged. No uninstall or second Skill folder is needed, and existing `.claude/agents` files are untouched.
+
+If you customized an installed Skill, the installer stops with a conflict. Keep your copy, compare it with the new package in a separate temporary project, and merge deliberately. Do not delete the customized directory just to make installation pass. An npm-installed CLI dependency is separate from these Skill folders: update its dependency name explicitly if you installed the old CLI locally or globally. An npx-only installation needs only the new command.
 
 ### Manual installation
 

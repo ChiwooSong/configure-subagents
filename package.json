@@ -1,6 +1,6 @@
 {
-  "name": "configure-subagents",
-  "version": "0.1.0-alpha.1",
+  "name": "@woody_s/configure-subagents",
+  "version": "0.1.0-alpha.2",
   "description": "A project-aware Skill for designing and improving Claude Code subagents, usable from Claude Code or Codex.",
   "type": "module",
   "bin": { "configure-subagents": "bin/configure-subagents.js" },

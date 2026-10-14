@@ -36,7 +36,7 @@ def check():
 
     docs = sorted(SKILL.rglob("*.md")) + [ROOT / "README.md"]
     package = json.loads((ROOT / "package.json").read_text(encoding="utf-8"))
-    package_name = re.escape(package["name"])
+    package_name = re.escape(package["name"].split("/")[-1])
     for doc in docs:
         if not doc.is_file():
             errors.append(f"Missing document: {doc.relative_to(ROOT)}")
@@ -51,8 +51,7 @@ def check():
         if re.search(r"\[TODO:[^\]]*\]", content):
             errors.append(f"Unfinished scaffold in {doc.relative_to(ROOT)}")
         # Keep download-and-execute instructions out of the agent-facing Skill.
-        # The human-facing README is released atomically with the first npm
-        # publication; GitHub stays private until package ownership is verified.
+        # Human-facing release instructions use the verified maintainer's scope.
         if doc.is_relative_to(SKILL) and re.search(rf"\b(?:npx|npm\s+exec)\b[^\r\n]*{package_name}", content):
             errors.append(f"Registry execution instruction in agent-facing document {doc.relative_to(ROOT)}")
 
