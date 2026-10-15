@@ -30,11 +30,11 @@ Choose models by role and task difficulty using verified target-environment info
 
 ## Workflow
 
-1. Use [project analysis](references/project-analysis.md) to inspect instructions, structure, existing agents, recurring work, and the target Claude Code environment. Separate facts, inferences, and unknowns.
-2. Read [role and model selection](references/role-and-model-selection.md). Explain why each role is needed. Reuse existing capabilities when sufficient; recommending no additional agent is valid.
+1. Use [project analysis](references/project-analysis.md) to inspect instructions, structure, existing agents, recurring work, and the target Claude Code environment. Separate facts, inferences, and unknowns. Judge evidence sufficiency, not project age or source-file count.
+2. Read [role and model selection](references/role-and-model-selection.md). Explain why each role is needed. With insufficient project information, propose only the smallest useful configuration, including no additional agent when appropriate. Mark provisional choices, their assumptions, and the evidence needed to revisit them.
 3. Read [Claude configuration and application](references/claude-code.md). Preserve existing content and follow its conflict and recovery procedure. Only modify the specified project's `.claude/agents/`. Report necessary changes elsewhere as outside this operation's scope.
 4. In apply mode, prepare originals and a complete candidate tree in a temporary directory outside agent discovery paths. Validate the candidate. Re-read originals immediately before editing; if they changed, recompute against the latest contents.
-5. Validate the installed result and inspect the actual diff. Preserve unrelated work. On repeat invocation, do not rewrite files without a meaningful improvement.
+5. Validate the installed result and inspect the actual diff. Preserve unrelated work. On repeat invocation, reassess current project evidence against existing agents using the [reassessment procedure](references/project-analysis.md#reassess-as-the-project-progresses). Improve existing settings where justified; do not regenerate them or rewrite files without a meaningful improvement.
 
 Automatic discovery is supported; discovery alone is not permission to modify files. Follow the host's permissions. If access is unavailable, report the blocked operation and required scope. Do not weaken permissions or modify global settings as a workaround.
 
@@ -54,8 +54,8 @@ If Python, PyYAML, or permission is missing, report the cause and leave validati
 
 Use this order, concisely. Never describe a proposal as an applied change.
 
-1. **Project diagnosis:** evidence paths, facts, inferences, unknowns.
-2. **Proposed configuration and reasons:** necessary roles, models, tools, existing capabilities to reuse, or why no new agent is needed.
+1. **Project diagnosis:** evidence paths, facts, inferences, unknowns, and whether the available information supports the proposed scope.
+2. **Proposed configuration and reasons:** necessary roles, models, tools, existing capabilities to reuse, or why no new agent is needed. Identify provisional choices, assumptions, and concrete reasons to rerun after more evidence becomes available.
 3. **Changes:** proposed or actual files, items preserved/added/modified/deleted, reasons, and original-copy locations when applying.
 4. **Validation:** commands, scope, errors, warnings, preservation checks, and repeat-invocation results.
 5. **Unverified items:** model availability, policies, tool access, and runtime invocation status. Distinguish configured models from observed models.
