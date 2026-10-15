@@ -26,6 +26,8 @@ Preserving existing fields does not mean endorsing or executing them. Report hoo
 
 Use the specified project. Otherwise identify the current project; ask only when multiple plausible targets would change the result. Default to a balance of quality, cost, and speed. Configuring agents does not authorize implementing project tasks, invoking generated agents, or delegating work.
 
+Choose models by role and task difficulty using verified target-environment information; do not make the user choose a routine cost/quality preference or confirm `inherit`. Explain the assignments and reasons in the user's language. Ask about a model ceiling only when a material unresolved limit prevents an appropriate choice; follow [role and model selection](references/role-and-model-selection.md#explain-model-choices).
+
 ## Workflow
 
 1. Use [project analysis](references/project-analysis.md) to inspect instructions, structure, existing agents, recurring work, and the target Claude Code environment. Separate facts, inferences, and unknowns.
