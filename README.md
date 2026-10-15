@@ -4,7 +4,7 @@ A project-aware Skill for designing and improving Claude Code subagents. Run the
 
 The host AI reads your project, decides whether separate agents are useful, and proposes roles, models, tools, and handoffs. It can also update existing project agents while preserving unrelated instructions and metadata. A small Python checker validates the generated files without executing them.
 
-**Alpha preview.** End-to-end host behavior and language-by-language performance remain unverified. Successful installation is distinct from successful Skill discovery or execution.
+**Alpha preview.** A focused Windows lifecycle scenario has been exercised in both hosts; broader project, operating-system, model-selection, and language coverage remains incomplete. Successful installation is distinct from successful Skill discovery or execution.
 
 ## What it does
 
@@ -33,7 +33,7 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.4`. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.5`. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 
@@ -49,17 +49,19 @@ Starting with `0.1.0-alpha.2`, new releases use **`@woody_s/configure-subagents`
 
 All three `--host` options remain supported by the new package. Use one selector per command; combining `--host` and `--agent` is an error, even when they identify the same tools. `all` means Claude Code and Codex, the two supported hosts.
 
-The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. **Alpha.4 changes the Skill instructions**, so installation over alpha.1 or alpha.2 reports a conflict rather than silently upgrading. Existing `.claude/agents` files are untouched.
+The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. **Alpha.5 changes the Skill instructions**, so installation over an earlier alpha reports a conflict rather than silently upgrading. Existing `.claude/agents` files are untouched.
 
 If you customized an installed Skill, the installer stops with a conflict. Keep your copy, compare it with the new package in a separate temporary project, and merge deliberately. Do not delete the customized directory just to make installation pass. An npm-installed CLI dependency is separate from these Skill folders: update its dependency name explicitly if you installed the old CLI locally or globally. For npx-only CLI usage, switch the package name in the command; existing copied Skills still need the update procedure below.
 
-### Updating an existing Skill to alpha.4
+### Updating an existing Skill to alpha.5
 
-Downloading the new npm CLI does not update an already copied Skill. Create a separate temporary project directory and install the pinned alpha.4 package there. Compare its Skill with your existing installation. Back up the existing Skill outside `.claude/skills` and `.agents/skills`, then merge the reviewed changes into the original location, preserving custom instructions. The changed Skill files are `SKILL.md`, `references/project-analysis.md`, and `references/role-and-model-selection.md`. There is no force-overwrite or automatic upgrade option.
+Downloading the new npm CLI does not update an already copied Skill. Create a separate temporary project directory and install the pinned alpha.5 package there. Compare its Skill with your existing installation. Back up the existing Skill outside `.claude/skills` and `.agents/skills`, then merge the reviewed changes into the original location, preserving custom instructions. Relative to alpha.4, the changed Skill files are `SKILL.md`, `references/project-analysis.md`, and `references/claude-code.md`. Older installations also need the earlier model-selection changes in `references/role-and-model-selection.md`. There is no force-overwrite or automatic upgrade option.
 
-Alpha.4 asks the AI to select models by role, task difficulty, and verified availability without a routine cost/quality questionnaire. It asks about a model ceiling only when a material unresolved limit prevents a suitable assignment. `inherit` is a fallback, not a claim of completed model optimization. These are Skill instructions, not automatic runtime model routing, and their host behavior has not yet been independently evaluated.
+Alpha.4 asks the AI to select models by role, task difficulty, and verified availability without a routine cost/quality questionnaire. It asks about a model ceiling only when a material unresolved limit prevents a suitable assignment. `inherit` is a fallback, not a claim of completed model optimization. These are Skill instructions, not automatic runtime model routing, and model-selection quality has not yet been independently evaluated.
 
 It also keeps sparse-project proposals minimal, explains assumptions and what evidence would justify revisiting them, and improves existing agents on later invocations without unnecessary rewrites. Evidence quality matters more than project age or code volume. Alpha.4 includes the model-selection work prepared for alpha.3; alpha.3 was tagged as a draft but was not published to npm.
+
+Alpha.5 requires a concrete configuration gap before editing: optional elaboration is not a reason to rewrite adequate instructions. It preserves byte-level formatting, including line endings, and keeps the existing Agent language unless you explicitly request changing it. Asking for a Korean explanation does not translate an English Agent.
 
 ### Manual installation
 
@@ -97,7 +99,7 @@ $configure-subagents Improve and apply this project's Claude Code reviewer confi
 
 ## Languages
 
-Responses follow your requested language. Generated agent instructions follow your explicit language choice, then project conventions, then the conversation language. The analysis workflow is not tied to a programming language: scripts, service-based projects, and documentation projects can use it. This is a design capability, not a claim that all languages have been tested. CLI and checker diagnostics are currently English.
+Responses follow your requested language. Existing Agent descriptions and instructions retain their established language unless you explicitly request changing the Agent language. For new Agents, an explicit Agent-language request takes priority, followed by project conventions and then the conversation language. The analysis workflow is not tied to a programming language: scripts, service-based projects, and documentation projects can use it. This is a design capability, not a claim that all languages have been tested. CLI and checker diagnostics are currently English.
 
 ## Static validation
 
@@ -128,7 +130,7 @@ npm run test:package
 
 The installer tests cover conflicts, repeated installation, partial failure, preservation of concurrently modified files, and linked paths. These checks are not an OS-level defense against a hostile writer changing parent directories between filesystem calls.
 
-Detailed evaluation and security follow-up reports are in the source repository's `evals` directory; they are not included in the npm payload. Authenticated Claude Code evaluation was blocked by an API authentication error; Codex CLI evaluation was blocked by local read policy. Neither has been reported as passed.
+Detailed evaluation and security follow-up reports are in the source repository's `evals` directory; they are not included in the npm payload. Initial authentication and sandbox blockers were resolved without changing stored credentials or weakening permissions. The [alpha.4 baseline](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA4_BEHAVIOR.md) records an unnecessary Codex rewrite and mixed line endings; the [follow-up evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/NOOP_EOL_BEHAVIOR.md) records both hosts preserving unchanged files and CRLF after instruction changes. The [alpha.5 report](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA5_BEHAVIOR.md) records the final language-preservation and regression evaluation. These focused scenarios do not establish the full host/project matrix or generated-Agent runtime behavior.
 
 ## Road to 1.0
 

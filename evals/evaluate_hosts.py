@@ -7,6 +7,7 @@ agents. Raw local logs stay in the evaluation output directory.
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -41,8 +42,15 @@ def digest(path):
 
 
 def snapshot(root):
-    return {str(p.relative_to(root)): {"sha256": digest(p), "mtime_ns": p.stat().st_mtime_ns}
-            for p in sorted(root.rglob("*")) if p.is_file()}
+    # Path.rglob may silently skip unreadable directories on newer Python.
+    # An incomplete snapshot must not count as a preservation pass.
+    def fail(error):
+        raise error
+    files = []
+    for folder, _, names in os.walk(root, onerror=fail):
+        files.extend(Path(folder) / name for name in names)
+    return {p.relative_to(root).as_posix(): {"sha256": digest(p), "mtime_ns": p.stat().st_mtime_ns}
+            for p in sorted(files)}
 
 
 def prepare(host, output):
@@ -82,22 +90,29 @@ def prompt_for(state, phase):
                      "If already adequate, do not rewrite files.")
 
 
-def run_phase(state, phase):
+def run_phase(state, phase, prompt_override=None):
     host, root, output = state["host"], Path(state["root"]), Path(state["output"])
-    prompt = prompt_for(state, phase)
+    prompt = prompt_override if prompt_override is not None else prompt_for(state, phase)
     (output / f"{host}-{phase}-prompt.txt").write_text(prompt, encoding="utf-8")
     executable = shutil.which(host)
     if not executable:
         return {"phase": phase, "status": "unavailable", "reason": "Host CLI not found"}
     if host == "claude":
-        command = [executable, "-p", "--output-format", "json", "--no-session-persistence",
+        command = [executable, "-p", "--output-format", "stream-json", "--verbose", "--no-session-persistence",
                    "--setting-sources", "project", "--strict-mcp-config", "--no-chrome",
                    "--permission-mode", "acceptEdits", "--permission-prompts", "none",
                    "--tools", "Read,Glob,Grep,Skill,Edit,Write,Bash",
                    "--allowedTools", "Read,Glob,Grep,Skill,Edit,Write"]
+        if state.get("allow_static_validator"):
+            checker = root / ".claude/skills/configure-subagents/scripts/validate_agents.py"
+            prefix = f'"{Path(state["python"]).as_posix()}"'
+            target = f'"{checker.as_posix()}"'
+            command.extend(["--allowedTools", f'Bash({prefix} {target} *)', f'Bash({prefix} -I {target} *)'])
     else:
         command = [executable, "exec", "--ignore-user-config", "--ephemeral", "--sandbox", "workspace-write",
                    "-c", 'approval_policy="never"', "--json", "-C", str(root), "-"]
+        if state.get("windows_sandbox"):
+            command.extend(["-c", f'windows.sandbox="{state["windows_sandbox"]}"'])
     before = snapshot(root / "projects")
     started = time.monotonic()
     try:

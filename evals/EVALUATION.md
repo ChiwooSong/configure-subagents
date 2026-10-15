@@ -42,6 +42,22 @@ Codex는 `--host codex`로 같은 순서를 수행한다. 호스트별 OS 임시
 
 제안·적용·재실행 전후의 파일 스냅샷과 실제 호스트 출력을 함께 확인한다. 재실행 권고가 자동 실행이나 예약 작업 생성으로 이어지지 않는지도 확인한다.
 
+`evaluate_lifecycle.py`는 초기 프로젝트, 서비스 경계가 생긴 프로젝트, 동일 상태 재실행을 순서대로 준비한다. 성장 단계에서 넣는 자료와 사용자 지시문은 모델 작업 전에 별도 스냅샷으로 기록한다.
+
+```text
+python evals/evaluate_lifecycle.py --host codex --output .eval-runs/lifecycle --phase initial --windows-sandbox elevated --run
+python evals/evaluate_lifecycle.py --host codex --output .eval-runs/lifecycle --phase growth --run
+python evals/evaluate_lifecycle.py --host codex --output .eval-runs/lifecycle --phase repeat --run
+```
+
+`--windows-sandbox`는 PC에 이미 구성된 Windows 샌드박스 방식과 일치할 때만 지정한다. `workspace-write` 제한은 유지된다. 다른 OS에서는 생략한다. Claude는 `--host claude`를 사용한다. `--allow-static-validator`는 이 임시 프로젝트에 복사한 검사기의 명령만 허용한다. 개인 API 키나 로그인 정보를 출력·수정하지 않는다.
+
+Claude 비대화형 실행은 승인 요청을 자동 거부하므로 민감한 Agent 파일 편집이 차단될 수 있다. 이 경우 적용 실패로 기록하고, 대화형 CLI에서 요청 명령과 대상 경로를 검토해 해당 작업만 승인한다. 자동 승인 모드나 권한 우회 플래그로 평가를 통과시키지 않는다. 대화형 재평가에서도 실행 전후 외부 스냅샷과 해당 세션의 기록을 남긴다.
+
+`finished`나 보존 항목 `true`만으로 행동 평가를 통과시키지 않는다. 특히 초기 실행이 파일을 읽지 못했으면 성장 단계로 진행하지 않으며, 재실행에서 변경이 생기면 새 근거와 실질적 필요성을 독립적으로 검토한다. 기존 원본 사본의 바이트도 확인하고, 접근 권한 때문에 확인할 수 없으면 그 한계를 기록한다.
+
+줄바꿈 보존은 텍스트 디코딩 전에 원본·후보·적용 파일의 바이트로 확인한다. CRLF 개수, 단독 LF/CR 개수, BOM, 마지막 줄바꿈 유무를 기록한다. 내용이 같은 재실행은 해시뿐 아니라 수정 시각도 비교한다. 기존 실패 기록은 [alpha.4 평가](ALPHA4_BEHAVIOR.md)에, 보강 후 재평가는 [무변경·줄바꿈 평가](NOOP_EOL_BEHAVIOR.md)에 별도로 남긴다.
+
 평가 에이전트의 완료 보고 자체는 통과 근거가 아니다. CLI 로그의 실제 Skill 읽기, 실제 검사 명령과 결과, 외부에서 취한 파일 스냅샷을 함께 확인한다. 검사 스크립트 호출이 정책상 차단되면 독립 실행한 정적 검사 결과와 호스트 내부 미검증을 따로 기록한다.
 
 두 호스트의 각 phase 종료 코드가 0이어도 모델 오류나 권한 거절이 결과 본문에 있을 수 있다. 모든 보존 검사와 로그를 사람이 검토한 뒤 결과를 기록한다. 실제 모델 ID, Skill discovery, 파일 편집 완료를 서로 대체하지 않는다.
