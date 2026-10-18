@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
 import { install } from '../lib/install.js';
+import { update } from '../lib/update.js';
 
 const metadata = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 const help = `${metadata.name} ${metadata.version}
@@ -10,6 +11,8 @@ Install the project-aware Skill for Claude Code or Codex.
 Usage:
   configure-subagents install --agent claude|codex|all [--project <directory>]
   configure-subagents install --host claude|codex|both [--project <directory>]
+  configure-subagents update --agent claude|codex|all [--project <directory>]
+  configure-subagents update --host claude|codex|both [--project <directory>]
   configure-subagents --help
   configure-subagents --version
 
@@ -17,15 +20,18 @@ The project defaults to the current directory and must exist.
 Use either --agent or the compatible --host option, not both.
 --agent all installs for both Claude Code and Codex.
 Identical installations are unchanged; differing installations are never overwritten.
+Use update for recognized, unmodified older releases. Modified or unknown Skills are preserved.
+Update preflights all selected hosts and keeps backups in .configure-subagents-updates/.
+Project .claude/agents files are never changed by install or update.
 No model calls, agent generation, global setup, or Python dependency installation.
 `;
 
 function parse(argv) {
   if (!argv.length || (argv.length === 1 && ['--help', '-h'].includes(argv[0]))) return { action: 'help' };
   if (argv.length === 1 && ['--version', '-v'].includes(argv[0])) return { action: 'version' };
-  if (argv[0] !== 'install') throw new Error('Expected install, --help, or --version.');
+  if (!['install', 'update'].includes(argv[0])) throw new Error('Expected install, update, --help, or --version.');
   if (argv.length === 2 && ['--help', '-h'].includes(argv[1])) return { action: 'help' };
-  const options = { action: 'install' };
+  const options = { action: argv[0] };
   for (let index = 1; index < argv.length; index += 2) {
     const key = argv[index];
     const value = argv[index + 1];
@@ -52,7 +58,10 @@ else if (options?.action === 'version') console.log(metadata.version);
 else if (options) {
   try {
     if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node.js 22 or later is required.');
-    for (const item of install(options)) console.log(`${item.status}: ${item.directory}`);
+    for (const item of (options.action === 'update' ? update : install)(options)) {
+      console.log(`${item.status}: ${item.directory}`);
+      if (item.backup) console.log(`  matched previous payload: ${item.fromVersion}; backup: ${item.backup}`);
+    }
     console.log('Invoke the Skill in your selected host. Installation does not verify host discovery or agent execution.');
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

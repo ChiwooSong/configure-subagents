@@ -13,6 +13,8 @@ Install manually from the source copy the user has reviewed: copy the entire `co
 
 The installer requires Node.js 22+ and is tested separately. The static checker requires Python 3.10+ and PyYAML. Before recommending registry installation, verify the maintainer identity, package ownership, and published version/tag against the release documentation. An unregistered package name is not evidence of ownership.
 
+For an explicitly requested package upgrade, the CLI's `update` command recognizes unmodified published Skill payloads using bundled file fingerprints. It checks every selected host before changes, preserves customized or unknown installations without automatic merging, and retains original copies under the project's `.configure-subagents-updates/` directory outside Skill discovery. Install/update do not change `.claude/agents`. Updating the Skill package remains separate from improving generated Agent settings; do not run an update merely because you are configuring agents.
+
 | Host | Project installation | Example invocation |
 |---|---|---|
 | Claude Code | `.claude/skills/configure-subagents/` | `/configure-subagents Propose a configuration for this project.` |

@@ -1,6 +1,6 @@
 {
   "name": "@woody_s/configure-subagents",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "A project-aware Skill for designing and improving Claude Code subagents, usable from Claude Code or Codex.",
   "type": "module",
   "bin": {
@@ -34,6 +34,8 @@
   "files": [
     "bin/configure-subagents.js",
     "lib/install.js",
+    "lib/update.js",
+    "lib/released-skills.json",
     "configure-subagents/SKILL.md",
     "configure-subagents/LICENSE",
     "configure-subagents/requirements.txt",
@@ -43,7 +45,7 @@
     "configure-subagents/scripts/find_evidence.py"
   ],
   "scripts": {
-    "test": "node --test tests/install.test.js",
+    "test": "node --test tests/install.test.js tests/update.test.js",
     "test:python": "python -m unittest discover -s tests -v",
     "check:skill": "python tests/check_skill.py",
     "test:package": "node tests/package.test.js"

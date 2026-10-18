@@ -1,6 +1,6 @@
 # 1.0.0 release checklist
 
-Updated: 2026-10-18 (Asia/Seoul). **Decision: HOLD.** Alpha.5 can ship through `next` with explicit limitations. It is not a stable-release candidate or evidence that all behavior gates pass.
+Updated: 2026-10-19 (Asia/Seoul). **Decision: HOLD.** Alpha releases ship through `next` with explicit limitations. Alpha.6 adds guarded package updates; it is not a stable-release candidate or evidence that all behavior gates pass.
 
 Check a gate only when its stated evidence exists for the release candidate. Preserve failed attempts; a later successful run must not erase an earlier failure. README warnings alone do not close correctness or preservation blockers.
 
@@ -9,6 +9,7 @@ Check a gate only when its stated evidence exists for the release candidate. Pre
 - [x] Project-local Claude Agent target and dual Skill hosts are documented; global configuration and automatic orchestration are excluded.
 - [x] CLI conflicts/no-overwrite behavior and validator JSON/exit-code behavior have regression coverage.
 - [x] Alpha.5 local tests pass: Python 56, Node 27, Skill structure and the 15-file offline artifact install/repeat test.
+- [x] Alpha.6 update coverage: Node 59 tests, Python 56 tests, Skill structure and 17-file offline artifact checks. Unmodified published alpha.1/2/4/5 upgrade; customized trees stop unchanged; backups, conditional rollback and existing Agent preservation are exercised. See the [update report](../evals/UPDATE_COMMAND.md).
 - [x] R8 isolated real-project runs preserve the selected original files and produce byte/mtime-preserving fresh repeats in both hosts.
 - [x] Claude's remaining first-pass/cross-review failures are disclosed with the tested host/model/environment.
 
@@ -49,7 +50,7 @@ These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT
 ## 4. Freeze the public compatibility and update contract
 
 - [ ] Document stable CLI arguments, required host selection, install destinations, conflict behavior, exit codes and validator JSON schema/version. Decide how future incompatible changes are versioned.
-- [ ] Demonstrate updating an unmodified alpha installation and a customized Skill through the documented compare/backup/merge process. No force upgrade is required; custom instructions and project Agents must survive.
+- [ ] Repeat alpha.6's unmodified-alpha upgrade and customized-Skill conflict checks on the final RC, including the manual compare/backup/merge workflow for custom content. No force upgrade is required; custom instructions and project Agents must survive.
 - [ ] Recheck the published package's scope/owner, MIT license, repository links and migration guidance. Audit Git/tarball contents for private paths, raw evaluation logs, credentials and unrelated files.
 
 ## 5. Validate the exact RC artifact

@@ -22,7 +22,7 @@ try {
   const packed = JSON.parse(execute(process.execPath, [npmCli, 'pack', '--json', '--ignore-scripts', '--offline', '--pack-destination', temp]));
   assert.equal(packed.length, 1);
   const expected = [
-    'package.json', 'README.md', 'LICENSE', 'bin/configure-subagents.js', 'lib/install.js',
+    'package.json', 'README.md', 'LICENSE', 'bin/configure-subagents.js', 'lib/install.js', 'lib/update.js', 'lib/released-skills.json',
     ...skillFiles.map(name => `configure-subagents/${name}`),
   ].sort();
   assert.deepEqual(packed[0].files.map(entry => entry.path).sort(), expected, 'Tarball must match the explicit distributable file list.');
@@ -56,13 +56,46 @@ try {
     assert.equal(fs.statSync(filename).mtimeMs, mtime);
     assert.deepEqual(fs.readFileSync(filename), bytes);
   }
+  const oldProject = path.join(temp, 'old 한글 project');
+  fs.mkdirSync(oldProject);
+  const old = JSON.parse(fs.readFileSync(path.join(packageRoot, 'tests/fixtures/released-skills.json'), 'utf8')).at(-1);
+  for (const host of ['.claude', '.agents']) {
+    for (const [name, data] of Object.entries(old.files)) {
+      const filename = path.join(oldProject, host, 'skills/configure-subagents', name);
+      fs.mkdirSync(path.dirname(filename), { recursive: true });
+      fs.writeFileSync(filename, Buffer.from(data, 'base64'));
+    }
+  }
+  fs.mkdirSync(path.join(oldProject, '.claude/agents'));
+  const agent = path.join(oldProject, '.claude/agents/custom.md');
+  fs.writeFileSync(agent, 'Keep existing agent\r\n');
+  const agentMtime = fs.statSync(agent).mtimeMs;
+  const updated = execute(process.execPath, [script, 'update', '--agent', 'all', '--project', oldProject]);
+  assert.equal((updated.match(/^updated:/gm) || []).length, 2);
+  const updatedBefore = [];
+  for (const host of ['.claude', '.agents']) {
+    for (const name of skillFiles) {
+      const filename = path.join(oldProject, host, 'skills/configure-subagents', name);
+      const bytes = fs.readFileSync(path.join(packageRoot, 'configure-subagents', name));
+      assert.deepEqual(fs.readFileSync(filename), bytes);
+      updatedBefore.push([filename, bytes, fs.statSync(filename).mtimeMs]);
+    }
+  }
+  assert.equal(fs.readFileSync(agent, 'utf8'), 'Keep existing agent\r\n');
+  assert.equal(fs.statSync(agent).mtimeMs, agentMtime);
+  const noUpdate = execute(process.execPath, [script, 'update', '--host', 'both', '--project', oldProject]);
+  assert.equal((noUpdate.match(/^unchanged:/gm) || []).length, 2);
+  for (const [filename, bytes, mtime] of updatedBefore) {
+    assert.deepEqual(fs.readFileSync(filename), bytes);
+    assert.equal(fs.statSync(filename).mtimeMs, mtime);
+  }
   const metadata = JSON.parse(fs.readFileSync(path.join(installed, 'package.json'), 'utf8'));
   assert.equal(metadata.name, '@woody_s/configure-subagents');
   assert.equal(metadata.license, 'MIT');
   assert.equal(metadata.publishConfig.tag, 'next');
   assert.equal(fs.readFileSync(path.join(installed, 'LICENSE'), 'utf8'), fs.readFileSync(path.join(packageRoot, 'LICENSE'), 'utf8'));
   assert.equal(execute(process.execPath, [script, '--version']).trim(), metadata.version);
-  console.log(`Offline tarball verified: ${packed[0].files.length} allowlisted files; both hosts installed; repeat invocation preserved files.`);
+  console.log(`Offline tarball verified: ${packed[0].files.length} allowlisted files; both hosts installed and updated from alpha.5; repeats and project agents preserved.`);
 } finally {
   assert.equal(path.dirname(fs.realpathSync(temp)), tempBase);
   assert.ok(path.basename(temp).startsWith('configure-subagents-package-'));

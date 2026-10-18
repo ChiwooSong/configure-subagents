@@ -33,9 +33,17 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.5`. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.6`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
+
+Already installed? Use **`update`**, not `install`:
+
+```sh
+npx --yes @woody_s/configure-subagents@next update --agent all
+```
+
+`--version` reports the downloaded CLI's version, not the version of a previously copied project Skill. Read the update result for each selected host.
 
 ### Migrating from the unscoped package
 
@@ -49,13 +57,33 @@ Starting with `0.1.0-alpha.2`, new releases use **`@woody_s/configure-subagents`
 
 All three `--host` options remain supported by the new package. Use one selector per command; combining `--host` and `--agent` is an error, even when they identify the same tools. `all` means Claude Code and Codex, the two supported hosts.
 
-The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. **Alpha.5 changes the Skill instructions**, so installation over an earlier alpha reports a conflict rather than silently upgrading. Existing `.claude/agents` files are untouched.
+The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. From alpha.6, use the scoped CLI's `update` command to upgrade recognized unmodified older installations, including the old unscoped alpha.1. Existing `.claude/agents` files are untouched.
 
 If you customized an installed Skill, the installer stops with a conflict. Keep your copy, compare it with the new package in a separate temporary project, and merge deliberately. Do not delete the customized directory just to make installation pass. An npm-installed CLI dependency is separate from these Skill folders: update its dependency name explicitly if you installed the old CLI locally or globally. For npx-only CLI usage, switch the package name in the command; existing copied Skills still need the update procedure below.
 
-### Updating an existing Skill to alpha.5
+<a id="updating-an-existing-skill-to-alpha5"></a>
 
-Downloading the new npm CLI does not update an already copied Skill. Create a separate temporary project directory and install the pinned alpha.5 package there. Compare its Skill with your existing installation. Back up the existing Skill outside `.claude/skills` and `.agents/skills`, then merge the reviewed changes into the original location, preserving custom instructions. The alpha.5 payload changes `SKILL.md`, the analysis/application/model-selection references, and includes `scripts/inspect_file_bytes.py` and `scripts/find_evidence.py`; compare the complete payload rather than copying only one document. Older installations also need the earlier model-selection changes in `references/role-and-model-selection.md`. There is no force-overwrite or automatic upgrade option.
+### Updating an existing Skill
+
+Run the new CLI in your project, or supply `--project`:
+
+```sh
+npx --yes @woody_s/configure-subagents@next update --agent all --project ./my-project
+```
+
+Use `--agent claude` or `--agent codex` if only that host is installed. `--host claude|codex|both` remains compatible. All selected hosts must already have a Skill; a missing host stops the update and directs you to `install`.
+
+- **Unmodified known release:** the entire Skill tree matches bundled SHA-256 fingerprints for published alpha.1 (unscoped), alpha.2, alpha.4 or alpha.5. It is upgraded to the CLI's bundled Skill. No registry access or project code execution occurs inside `update`.
+- **Already current:** reports `unchanged`, preserving bytes and modification times without creating backups.
+- **Customized, incomplete or unknown:** reports differing paths and stops before changing either host. Edits, additions, deletions, extra directories and line-ending changes all count. It does not guess ownership from a version marker, normalize files, merge automatically or force-overwrite. A later unrecognized release is also refused rather than downgraded.
+
+Both hosts are checked before applying anything. Successful updates report `updated` and the original backup path under `.configure-subagents-updates/<transaction>/backups/<host>/`. This project-local directory is outside both Skill discovery paths. Backups retain original bytes and modification times; keep them until you have checked the update, then remove only the transaction folders you no longer need. Consider ignoring this folder in your project's Git configuration; the CLI does not edit `.gitignore`.
+
+Updates stage the complete replacement before moving an original to its backup. If a handled failure occurs, originals are restored when the destination still belongs to this operation. Concurrent changes are never deliberately overwritten; retained backups/recovery paths are reported for manual inspection. A process termination or power loss can interrupt the moves: this is not a crash-atomic, two-host transaction. Inspect the reported storage directory and restore the appropriate backup only after checking the live destination. Symbolic links/junctions in destination paths are refused. These checks are not isolation from a hostile concurrent filesystem writer.
+
+For a customized Skill, install into a **separate temporary project**, back up the existing Skill outside discovery folders, and compare/merge the full payload yourself. Do not delete custom instructions to make the update pass. Install and update only copy Skill files; **`.claude/agents`, other Skills, project source and global settings stay untouched**. Restart/reload the host as needed to discover updated instructions; installation does not prove discovery or model execution.
+
+CLI exits: `0` for successful install/update/no-op/help, `1` for filesystem conflicts or operation failure, `2` for invalid arguments. There is no force option. See the [alpha.6 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.6/releases/v0.1.0-alpha.6.md).
 
 Alpha.4 asks the AI to select models by role, task difficulty, and verified availability without a routine cost/quality questionnaire. It asks about a model ceiling only when a material unresolved limit prevents a suitable assignment. `inherit` is a fallback, not a claim of completed model optimization. These are Skill instructions, not automatic runtime model routing, and model-selection quality is not established across the supported matrix. Limited complex-role choices and earlier unknown-availability failures are recorded in the evaluation reports.
 
@@ -130,9 +158,13 @@ npm run test:package
 
 The installer tests cover conflicts, repeated installation, partial failure, preservation of concurrently modified files, and linked paths. These checks are not an OS-level defense against a hostile writer changing parent directories between filesystem calls.
 
+Alpha.6 adds offline upgrade tests against captured published alpha.1/2/4/5 Skill bytes, both-host rollback and concurrent-edit cases. The package smoke test installs the actual tarball and upgrades an alpha.5 fixture while preserving existing Agent files. See the [update evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/UPDATE_COMMAND.md). The capture script is a maintainer-only network operation; ordinary tests and `update` use bundled fixtures/fingerprints without fetching older packages.
+
 Detailed evaluation and security follow-up reports are in the source repository's `evals` directory; they are not included in the npm payload. Initial authentication and sandbox blockers were resolved without changing stored credentials or weakening permissions. The [alpha.4 baseline](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA4_BEHAVIOR.md) records an unnecessary Codex rewrite and mixed line endings; the [follow-up evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/NOOP_EOL_BEHAVIOR.md) records both hosts preserving unchanged files and CRLF after instruction changes. The [earlier alpha.5 lifecycle report](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA5_BEHAVIOR.md) records language-preservation and regression evaluation on an earlier candidate payload. These focused scenarios do not establish the full host/project matrix or generated-Agent runtime behavior. The alpha.5 [source-retrieval evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RETRIEVAL_AUDIT_BEHAVIOR.md) is tracked separately; its status must not be inferred from the earlier alpha.5 results.
 
 ### Known behavior limitation in alpha.5
+
+This limitation remains in alpha.6. The update command changes package installation behavior; it does not resolve the host-analysis findings below. No new authenticated model sessions were run for alpha.6.
 
 In our Windows tests with Claude Code 2.1.302 and `claude-opus-5-5`, first-pass analysis and cross-review of exceptions spread across project documents remain unreliable. The R8 retrieval changes found the previously missed isolated-Mac verification exception before the first draft, but Claude still installed the Signal Flare configuration without the required second source comparison. A broad worker also retained a universal fix-to-green workflow despite reproduction/design-only assignments; a fresh no-edit repeat did not detect that conflict. Better retrieval is not a guarantee that every exception or review checkpoint is covered. This is a limitation observed in this host/model/scenario, not a claim about all Claude models or proof of a model-intrinsic cause.
 

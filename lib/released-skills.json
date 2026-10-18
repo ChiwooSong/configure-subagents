@@ -1,0 +1,64 @@
+[
+  {
+    "package": "configure-subagents",
+    "version": "0.1.0-alpha.1",
+    "integrity": "sha512-l2OPhE0UuvWM/yfznYVoLkm6AOSXsx2BUZXKYYGiS+QPAv/gCscrlGHiYZD94OmxYz/btCbPEReTcupBMnDaXQ==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "d989e60391b5602fe99c1bf7171a6083ec28d2c63a5d7318df2064f724157c2e",
+      "references/claude-code.md": "e93044d80546d82f6d0f44f5254b43214bff89f65c356df14bc0d7e6b44518b7",
+      "references/host-usage.md": "8998abaad28442bb04ccea979272cbc10a9aac2140d17e472cdd1c8c47b05653",
+      "references/project-analysis.md": "22d5b3db2cbb26381ded0d07f2bfb0b72cc4c9479ce0f6e740af478a92a744c8",
+      "references/role-and-model-selection.md": "806759eeee0aa97d652c3aa0afef75efebec6852bc20396dc7cd95a708b42a5b",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.2",
+    "integrity": "sha512-1e7J/yRSW5sGNu76+3qtLxdSAIfXlCJYBGRvoR59JvGFGmvPMZzAqY01KQS/NpeNyxrym4ZrzANmxnIpTA77jQ==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "d989e60391b5602fe99c1bf7171a6083ec28d2c63a5d7318df2064f724157c2e",
+      "references/claude-code.md": "e93044d80546d82f6d0f44f5254b43214bff89f65c356df14bc0d7e6b44518b7",
+      "references/host-usage.md": "8998abaad28442bb04ccea979272cbc10a9aac2140d17e472cdd1c8c47b05653",
+      "references/project-analysis.md": "22d5b3db2cbb26381ded0d07f2bfb0b72cc4c9479ce0f6e740af478a92a744c8",
+      "references/role-and-model-selection.md": "806759eeee0aa97d652c3aa0afef75efebec6852bc20396dc7cd95a708b42a5b",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.4",
+    "integrity": "sha512-InzRzDH2AQfz0BJLEOc2o8NNk6hY40Q3IVtLh6gP/ekBf6ik6g1yC4kTT6IK6Ml+MGQvYEY6joH9mUzoeYj6Zg==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "63c6a01af149b74614c865a0f2bf46fc4657c5b67040fdc2e5a14d2ee718fbf6",
+      "references/claude-code.md": "e93044d80546d82f6d0f44f5254b43214bff89f65c356df14bc0d7e6b44518b7",
+      "references/host-usage.md": "8998abaad28442bb04ccea979272cbc10a9aac2140d17e472cdd1c8c47b05653",
+      "references/project-analysis.md": "c90ab9d65de8841a048fc516b199ae8e706c4f624213ed77ba7871008c46d468",
+      "references/role-and-model-selection.md": "177893f2db62973c92b4696819fb88912f43faf0eb508f4b9dbf1716fa1b3003",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.5",
+    "integrity": "sha512-Zmim7hX0bVIM3AK0yYrDmcF4vxQOOKs1iFxiIVSMII+khG/0N4W/SZvvf7MCqd6GIfKTKRwCL1ZVSv+GpwiYew==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "f6fcf9a3c60ea3a961d26cb8285f3473e49056d65298321ac1f1ca71436531f1",
+      "references/claude-code.md": "15d974d02fe5e9f0a3c83b1ab639c7605533144c912bf7b7c811656b0af7d237",
+      "references/host-usage.md": "8998abaad28442bb04ccea979272cbc10a9aac2140d17e472cdd1c8c47b05653",
+      "references/project-analysis.md": "d9b596b83e17c08f1fa964cd50c6fade5bdc628c33b1b63d6e4f2aed5def5453",
+      "references/role-and-model-selection.md": "2e30124e70258f202a1a98ff5ced6593a447e95789f57cfda599386bf9bd6ecc",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/find_evidence.py": "e77e2f3f68e5d5c3266d6e9f4c4c9902b456286e289e2d48c886a9b4de299651",
+      "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
+  }
+]
