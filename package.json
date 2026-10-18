@@ -38,7 +38,9 @@
     "configure-subagents/LICENSE",
     "configure-subagents/requirements.txt",
     "configure-subagents/references/*.md",
-    "configure-subagents/scripts/validate_agents.py"
+    "configure-subagents/scripts/validate_agents.py",
+    "configure-subagents/scripts/inspect_file_bytes.py",
+    "configure-subagents/scripts/find_evidence.py"
   ],
   "scripts": {
     "test": "node --test tests/install.test.js",

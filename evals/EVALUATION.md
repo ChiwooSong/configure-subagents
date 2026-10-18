@@ -52,7 +52,7 @@ python evals/evaluate_lifecycle.py --host codex --output .eval-runs/lifecycle --
 
 `--windows-sandbox`는 PC에 이미 구성된 Windows 샌드박스 방식과 일치할 때만 지정한다. `workspace-write` 제한은 유지된다. 다른 OS에서는 생략한다. Claude는 `--host claude`를 사용한다. `--allow-static-validator`는 이 임시 프로젝트에 복사한 검사기의 명령만 허용한다. 개인 API 키나 로그인 정보를 출력·수정하지 않는다.
 
-Claude 비대화형 실행은 승인 요청을 자동 거부하므로 민감한 Agent 파일 편집이 차단될 수 있다. 이 경우 적용 실패로 기록하고, 대화형 CLI에서 요청 명령과 대상 경로를 검토해 해당 작업만 승인한다. 자동 승인 모드나 권한 우회 플래그로 평가를 통과시키지 않는다. 대화형 재평가에서도 실행 전후 외부 스냅샷과 해당 세션의 기록을 남긴다.
+Claude 비대화형 실행은 승인 요청을 자동 거부하므로 민감한 Agent 파일 편집이 차단될 수 있다. 이 경우 적용 실패로 기록하고, 대화형 CLI에서 요청 명령과 대상 경로를 검토해 해당 작업만 승인한다. 권한 우회 플래그로 평가를 통과시키지 않는다. 사용자가 선택한 Auto 같은 프로세스별 권한 모드는 사용 여부를 기록하고 기존 승인 범위 안에서 적용할 수 있지만, 인증·권한 차단을 실패에서 통과로 바꾸는 근거로 쓰지 않는다. 전역 설정을 바꾸지 않고 별도 대화형 승인이 필요한 단계는 사용자에게 요청한다. 대화형 재평가에서도 실행 전후 외부 스냅샷과 해당 세션의 기록을 남긴다.
 
 `finished`나 보존 항목 `true`만으로 행동 평가를 통과시키지 않는다. 특히 초기 실행이 파일을 읽지 못했으면 성장 단계로 진행하지 않으며, 재실행에서 변경이 생기면 새 근거와 실질적 필요성을 독립적으로 검토한다. 기존 원본 사본의 바이트도 확인하고, 접근 권한 때문에 확인할 수 없으면 그 한계를 기록한다.
 
@@ -61,3 +61,40 @@ Claude 비대화형 실행은 승인 요청을 자동 거부하므로 민감한 
 평가 에이전트의 완료 보고 자체는 통과 근거가 아니다. CLI 로그의 실제 Skill 읽기, 실제 검사 명령과 결과, 외부에서 취한 파일 스냅샷을 함께 확인한다. 검사 스크립트 호출이 정책상 차단되면 독립 실행한 정적 검사 결과와 호스트 내부 미검증을 따로 기록한다.
 
 두 호스트의 각 phase 종료 코드가 0이어도 모델 오류나 권한 거절이 결과 본문에 있을 수 있다. 모든 보존 검사와 로그를 사람이 검토한 뒤 결과를 기록한다. 실제 모델 ID, Skill discovery, 파일 편집 완료를 서로 대체하지 않는다.
+
+## Active-project follow-up evaluation
+
+The 2026-10-18 correction round is tracked separately in [R5 model, exception, and repeat evaluation](CORRECTIONS_BEHAVIOR.md). Keep its partial/failed behaviors distinct from static validation and from earlier rounds.
+
+The next correction and fresh-session checks are recorded in [R6 first-analysis and tool explanations](FIRST_REVIEW_BEHAVIOR.md), including first-application completeness and same-state repeat behavior.
+
+The byte-inspection helper and subsequent host checks are recorded in [R7 evidence review and output boundaries](EVIDENCE_REVIEW_BEHAVIOR.md). Keep incomplete or failed host checkpoints distinct from successful static tests.
+
+Use isolated copies of user-authorized projects, including relevant uncommitted source and instructions, while excluding credentials, local settings, runtime data and build/dependency directories. Record the source selection, source hashes/mtimes and Git state before copying, and verify the originals again after evaluation. Do not install generated Agents into the original projects or resume their operational tasks. Keep raw paths, project material and host logs in ignored local evaluation storage.
+
+Run fresh proposal, apply and same-state repeat sessions in both hosts with the same frozen Skill payload. Give each host the actual request and source material, without the previous findings or an expected role roster. Independently assess:
+
+Record the observed host version/model for each session separately from generated Agent model settings. If a fresh-session default drifts, retain that attempt and disclose it; a controlled comparison may pin the original host model per session without changing global settings. Do not silently replace a completed failing result with a different-model run.
+
+- Whether the first analysis follows current task records to representative assignments and covers materially different responsibilities, allowed-file exceptions and component-specific verification. Reusing the main session is valid; no fixed Agent count or model diversity is required.
+- Whether proposals and applied-result reports distinguish unavailable tool interfaces, behavioral instructions and observed runtime controls. Shell-enabled roles must not be described as read-only or as technically unable to start other processes merely because a delegation tool is absent.
+- Whether a user-visible coverage summary precedes the first Agent draft or candidate/backup/Agent write. Compare observable message/tool order; internal reasoning or a summary written only after applying does not satisfy this checkpoint. It is not an approval gate.
+- Whether restrictions are reconciled with scoped verification exceptions and approved wrapper subprocesses by inspecting relevant assignments, handoffs and command declarations. Check the description as well as the body; historical evidence must not become unconditional future permission. Existing adequate conditional instructions should not be rewritten merely to list another example.
+- Whether the actual candidate is cross-reviewed against source evidence after drafting and before installation, with an observable rule/component, assignment and linked verification source, checked boundary and disposition. Inspect the cited passages and retrieval trace; a generic checklist assertion is insufficient. Keep a first-pass omission visible even if a repeat corrects it. On no-change repeats, review existing instructions without creating candidates or touching files.
+- Whether model reasons use task difficulty and current target information, separating historical quota incidents from current account access, capacity, pricing and measured savings.
+- Whether final action/check claims match distinct tool calls and outcomes, including denied attempts, reformulated or failed commands, shell/edit use and corrected byte-format observations. Do not count duplicate transcript events as separate attempts. Preserve genuine reporting failures and distinguish them from explicitly corrected intermediate observations.
+- Whether proposal mode preserves bytes/mtimes, apply mode changes only justified Agent files, and repeat mode preserves adequate configurations. Inspect any repeat diff for a concrete defect rather than accepting either the host's explanation or a no-op flag without review.
+
+If the original projects contain no Agents, say so: preservation of newly generated configuration on repeat is not a replacement for existing-user-Agent or CRLF fixtures. Host execution, independent static checks and actual generated-Agent invocation remain separate results.
+
+See the [2026-10-16 active-project results](REAL_PROJECT_BEHAVIOR.md) for observed behavior, retained failures and evaluation limits.
+
+The [exception and reporting follow-up](EXCEPTIONS_BEHAVIOR.md) uses the same frozen project evidence with an observable pre-draft checkpoint, exception-path inspection and trace-based report review. It retains remaining coverage failures separately from static passes and repeat preservation.
+
+The [candidate cross-review follow-up](CROSS_REVIEW_BEHAVIOR.md) adds a separate evidence pass over the actual candidate before installation and checks fresh same-request repeats against unchanged source snapshots.
+
+The [2026-10-18 release-readiness assessment](RELEASE_READINESS_2026-10-18.md) compares the public npm artifact with the development payload, records fresh automated and host checks, and separates prerelease gates from the remaining 1.0.0 criteria.
+
+The [R8 source retrieval audit](RETRIEVAL_AUDIT_BEHAVIOR.md) diagnoses the observed first-pass search gap and evaluates operation inventories and independent source-chain review.
+
+The [1.0.0 checklist](../docs/V1_RELEASE_CHECKLIST.md) keeps stable release on hold and separates prior alpha evidence from exact-RC gates. The [alpha.5 release notes](../releases/v0.1.0-alpha.5.md) disclose remaining behavior limits.

@@ -4,7 +4,7 @@ A project-aware Skill for designing and improving Claude Code subagents. Run the
 
 The host AI reads your project, decides whether separate agents are useful, and proposes roles, models, tools, and handoffs. It can also update existing project agents while preserving unrelated instructions and metadata. A small Python checker validates the generated files without executing them.
 
-**Alpha preview.** A focused Windows lifecycle scenario has been exercised in both hosts; broader project, operating-system, model-selection, and language coverage remains incomplete. Successful installation is distinct from successful Skill discovery or execution.
+**Alpha preview — 1.0.0 is on hold.** Windows lifecycle and isolated real-project scenarios have been exercised in both hosts, with remaining Claude first-pass exception and cross-review failures. Read the [known behavior limitation](#known-behavior-limitation-in-alpha5) before relying on generated restrictions. Broader project, operating-system, model-selection and language coverage remains incomplete. Installation, Skill execution and generated-Agent invocation are separate checks.
 
 ## What it does
 
@@ -55,13 +55,13 @@ If you customized an installed Skill, the installer stops with a conflict. Keep 
 
 ### Updating an existing Skill to alpha.5
 
-Downloading the new npm CLI does not update an already copied Skill. Create a separate temporary project directory and install the pinned alpha.5 package there. Compare its Skill with your existing installation. Back up the existing Skill outside `.claude/skills` and `.agents/skills`, then merge the reviewed changes into the original location, preserving custom instructions. Relative to alpha.4, the changed Skill files are `SKILL.md`, `references/project-analysis.md`, and `references/claude-code.md`. Older installations also need the earlier model-selection changes in `references/role-and-model-selection.md`. There is no force-overwrite or automatic upgrade option.
+Downloading the new npm CLI does not update an already copied Skill. Create a separate temporary project directory and install the pinned alpha.5 package there. Compare its Skill with your existing installation. Back up the existing Skill outside `.claude/skills` and `.agents/skills`, then merge the reviewed changes into the original location, preserving custom instructions. The alpha.5 payload changes `SKILL.md`, the analysis/application/model-selection references, and includes `scripts/inspect_file_bytes.py` and `scripts/find_evidence.py`; compare the complete payload rather than copying only one document. Older installations also need the earlier model-selection changes in `references/role-and-model-selection.md`. There is no force-overwrite or automatic upgrade option.
 
-Alpha.4 asks the AI to select models by role, task difficulty, and verified availability without a routine cost/quality questionnaire. It asks about a model ceiling only when a material unresolved limit prevents a suitable assignment. `inherit` is a fallback, not a claim of completed model optimization. These are Skill instructions, not automatic runtime model routing, and model-selection quality has not yet been independently evaluated.
+Alpha.4 asks the AI to select models by role, task difficulty, and verified availability without a routine cost/quality questionnaire. It asks about a model ceiling only when a material unresolved limit prevents a suitable assignment. `inherit` is a fallback, not a claim of completed model optimization. These are Skill instructions, not automatic runtime model routing, and model-selection quality is not established across the supported matrix. Limited complex-role choices and earlier unknown-availability failures are recorded in the evaluation reports.
 
 It also keeps sparse-project proposals minimal, explains assumptions and what evidence would justify revisiting them, and improves existing agents on later invocations without unnecessary rewrites. Evidence quality matters more than project age or code volume. Alpha.4 includes the model-selection work prepared for alpha.3; alpha.3 was tagged as a draft but was not published to npm.
 
-Alpha.5 requires a concrete configuration gap before editing: optional elaboration is not a reason to rewrite adequate instructions. It preserves byte-level formatting, including line endings, and keeps the existing Agent language unless you explicitly request changing it. Asking for a Korean explanation does not translate an English Agent.
+Alpha.5 requires a concrete configuration gap before editing: optional elaboration is not a reason to rewrite adequate instructions. It preserves byte-level formatting, including line endings, and keeps the existing Agent language unless you explicitly request changing it. Asking for a Korean explanation does not translate an English Agent. It also adds source inventories and byte inspection, with documented remaining host limitations. See the [alpha.5 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.5/releases/v0.1.0-alpha.5.md).
 
 ### Manual installation
 
@@ -103,7 +103,7 @@ Responses follow your requested language. Existing Agent descriptions and instru
 
 ## Static validation
 
-The checker requires Python 3.10+ and PyYAML. Use a virtual environment and install `configure-subagents/requirements.txt` into it. Then, from this source tree:
+The configuration checker requires Python 3.10+ and PyYAML. The separate `inspect_file_bytes.py` and `find_evidence.py` helpers use only Python's standard library. They report measured file bytes and paginated source inventories without writing temporary files or executing project code; they do not require PyYAML. Use a virtual environment and install `configure-subagents/requirements.txt` into it. Then, from this source tree:
 
 ```sh
 python configure-subagents/scripts/validate_agents.py --project-root /path/to/project --format json
@@ -130,18 +130,19 @@ npm run test:package
 
 The installer tests cover conflicts, repeated installation, partial failure, preservation of concurrently modified files, and linked paths. These checks are not an OS-level defense against a hostile writer changing parent directories between filesystem calls.
 
-Detailed evaluation and security follow-up reports are in the source repository's `evals` directory; they are not included in the npm payload. Initial authentication and sandbox blockers were resolved without changing stored credentials or weakening permissions. The [alpha.4 baseline](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA4_BEHAVIOR.md) records an unnecessary Codex rewrite and mixed line endings; the [follow-up evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/NOOP_EOL_BEHAVIOR.md) records both hosts preserving unchanged files and CRLF after instruction changes. The [alpha.5 report](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA5_BEHAVIOR.md) records the final language-preservation and regression evaluation. These focused scenarios do not establish the full host/project matrix or generated-Agent runtime behavior.
+Detailed evaluation and security follow-up reports are in the source repository's `evals` directory; they are not included in the npm payload. Initial authentication and sandbox blockers were resolved without changing stored credentials or weakening permissions. The [alpha.4 baseline](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA4_BEHAVIOR.md) records an unnecessary Codex rewrite and mixed line endings; the [follow-up evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/NOOP_EOL_BEHAVIOR.md) records both hosts preserving unchanged files and CRLF after instruction changes. The [earlier alpha.5 lifecycle report](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/ALPHA5_BEHAVIOR.md) records language-preservation and regression evaluation on an earlier candidate payload. These focused scenarios do not establish the full host/project matrix or generated-Agent runtime behavior. The alpha.5 [source-retrieval evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RETRIEVAL_AUDIT_BEHAVIOR.md) is tracked separately; its status must not be inferred from the earlier alpha.5 results.
+
+### Known behavior limitation in alpha.5
+
+In our Windows tests with Claude Code 2.1.302 and `claude-opus-5-5`, first-pass analysis and cross-review of exceptions spread across project documents remain unreliable. The R8 retrieval changes found the previously missed isolated-Mac verification exception before the first draft, but Claude still installed the Signal Flare configuration without the required second source comparison. A broad worker also retained a universal fix-to-green workflow despite reproduction/design-only assignments; a fresh no-edit repeat did not detect that conflict. Better retrieval is not a guarantee that every exception or review checkpoint is covered. This is a limitation observed in this host/model/scenario, not a claim about all Claude models or proof of a model-intrinsic cause.
+
+Review generated restrictions against the applicable base assignment, revisions and handoff/result evidence before relying on them for project work. Proposal mode can make that review easier. A static validator pass or an unchanged repeat does not establish semantic completeness; rerunning may uncover a real omission. See the [R8 evidence and current status](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RETRIEVAL_AUDIT_BEHAVIOR.md). Generated-Agent invocation and runtime enforcement remain separate, unverified checks.
 
 ## Road to 1.0
 
-The proposed stable-release criteria are:
+**1.0.0 remains on hold.** The [stable-release checklist](https://github.com/ChiwooSong/configure-subagents/blob/main/docs/V1_RELEASE_CHECKLIST.md) defines the remaining gates: close first-pass exception/cross-review failures, pass repeated fresh-session checks in both hosts, verify customized-Agent preservation and failure recovery, freeze the compatibility/update contract, and validate the exact installed RC artifact and CI matrix.
 
-- Demonstrate proposal, application, validation, and repeat-invocation behavior in both hosts using small, service-based, documentation, and existing-agent projects, including sparse information and later project growth.
-- Verify read-only proposals, preservation of user edits and unrelated fields, meaningful model choices within verified constraints, and no unnecessary rewrites. Resolve material security or data-loss issues.
-- Establish a documented compatibility contract for CLI options, installation paths, validator output and exit codes, and a tested update procedure that preserves customized Skills.
-- Pass the supported OS/Python CI matrix and published-package installation checks, then test a release candidate without unresolved release-blocking regressions.
-
-These are readiness criteria, not completed evaluations or a promise to support every language or model. Actual generated-agent invocation remains a separately requested check. Version 1.0.0 will mark the supported interface and behavior as stable, following [Semantic Versioning](https://semver.org/).
+Alpha disclosure does not close these blockers. A no-op repeat can retain a defect; static tests do not establish host semantics. Stable release requires evidence for the supported scope and an explicit maintainer decision to end the hold, not a calendar date or a version-number bump. Runtime invocation, model-access/cost and language/platform claims remain limited to separately observed evidence.
 
 ## License
 
