@@ -266,6 +266,11 @@ for (const agent of ['claude', 'codex', 'all']) {
     const root = fixture(t);
     const result = run(root, ['install', '--agent', agent]);
     assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /^SUCCESS: Skill installation completed\.\r?\nCLI version: /);
+    assert.equal(result.stderr, '');
+    assert.doesNotMatch(result.stdout, /does not verify|ERROR:/);
+    assert.equal(result.stdout.includes('Next: In Claude Code,'), agent !== 'codex');
+    assert.equal(result.stdout.includes('Next: In Codex,'), agent !== 'claude');
     for (const host of ['claude', 'codex']) {
       if (agent === 'all' || agent === host) assertPayload(root, host);
       else assert.equal(fs.existsSync(destination(root, host)), false);
@@ -273,6 +278,8 @@ for (const agent of ['claude', 'codex', 'all']) {
     const before = snapshot(root);
     const repeated = run(root, ['install', '--host', agent === 'all' ? 'both' : agent]);
     assert.equal(repeated.status, 0, repeated.stderr);
+    assert.match(repeated.stdout, /^SUCCESS: Skill files already match this version\. No changes needed\./);
+    assert.equal(repeated.stderr, '');
     assert.match(repeated.stdout, /unchanged:/);
     assert.deepEqual(snapshot(root), before);
   });
@@ -285,6 +292,8 @@ test('CLI --agent all preflights both destinations without overwriting custom co
   const before = snapshot(root);
   const result = run(root, ['install', '--agent', 'all']);
   assert.equal(result.status, 1, result.stderr);
+  assert.match(result.stderr, /^ERROR: Skill installation failed\./);
+  assert.equal(result.stdout, '');
   assert.deepEqual(snapshot(root), before);
 });
 
@@ -302,6 +311,8 @@ test('CLI rejects missing, unknown, and duplicate arguments without changes', t 
   ]) {
     const result = run(root, args);
     assert.equal(result.status, 2, `${args}: ${result.stderr}`);
+    assert.match(result.stderr, /^ERROR: Invalid arguments\./);
+    assert.equal(result.stdout, '');
     assert.deepEqual(snapshot(root), {});
   }
 });
@@ -313,6 +324,22 @@ test('CLI filesystem conflicts return code 1', t => {
   const before = snapshot(root);
   const result = run(root, ['install', '--host', 'claude']);
   assert.equal(result.status, 1);
+  assert.match(result.stderr, /^ERROR: Skill installation failed\./);
+  assert.equal(result.stdout, '');
   assert.match(result.stderr, /differs/);
   assert.deepEqual(snapshot(root), before);
+});
+
+test('CLI partial install reports completion while distinguishing unchanged and installed hosts', t => {
+  const root = fixture(t);
+  install({ host: 'claude', project: root });
+  const before = snapshot(destination(root));
+  const result = run(root, ['install', '--agent', 'all']);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /^SUCCESS: Skill installation completed\./);
+  assert.equal((result.stdout.match(/^installed:/gm) || []).length, 1);
+  assert.equal((result.stdout.match(/^unchanged:/gm) || []).length, 1);
+  assert.equal(result.stderr, '');
+  assert.deepEqual(snapshot(destination(root)), before);
+  assertPayload(root, 'codex');
 });

@@ -10,6 +10,7 @@ Check a gate only when its stated evidence exists for the release candidate. Pre
 - [x] CLI conflicts/no-overwrite behavior and validator JSON/exit-code behavior have regression coverage.
 - [x] Alpha.5 local tests pass: Python 56, Node 27, Skill structure and the 15-file offline artifact install/repeat test.
 - [x] Alpha.6 update coverage: Node 59 tests, Python 56 tests, Skill structure and 17-file offline artifact checks. Unmodified published alpha.1/2/4/5 upgrade; customized trees stop unchanged; backups, conditional rollback and existing Agent preservation are exercised. See the [update report](../evals/UPDATE_COMMAND.md).
+- [x] Alpha.7 CLI messaging coverage: Node 61 tests and the tarball check distinguish install/update/no-op success from stderr failures, including mixed per-host results. Skill payload is unchanged from alpha.6; this does not close a host-behavior gate.
 - [x] R8 isolated real-project runs preserve the selected original files and produce byte/mtime-preserving fresh repeats in both hosts.
 - [x] Claude's remaining first-pass/cross-review failures are disclosed with the tested host/model/environment.
 

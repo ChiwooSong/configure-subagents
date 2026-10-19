@@ -41,6 +41,7 @@ try {
   const script = path.join(installed, 'bin', 'configure-subagents.js');
   const output = execute(process.execPath, [script, 'install', '--agent', 'all', '--project', project]);
   assert.equal((output.match(/^installed:/gm) || []).length, 2);
+  assert.match(output, /^SUCCESS: Skill installation completed\./);
   const before = [];
   for (const host of ['.claude', '.agents']) {
     for (const name of skillFiles) {
@@ -52,6 +53,7 @@ try {
   }
   const repeated = execute(process.execPath, [script, 'install', '--host', 'both', '--project', project]);
   assert.equal((repeated.match(/^unchanged:/gm) || []).length, 2);
+  assert.match(repeated, /^SUCCESS: Skill files already match this version\. No changes needed\./);
   for (const [filename, mtime, bytes] of before) {
     assert.equal(fs.statSync(filename).mtimeMs, mtime);
     assert.deepEqual(fs.readFileSync(filename), bytes);
@@ -72,6 +74,7 @@ try {
   const agentMtime = fs.statSync(agent).mtimeMs;
   const updated = execute(process.execPath, [script, 'update', '--agent', 'all', '--project', oldProject]);
   assert.equal((updated.match(/^updated:/gm) || []).length, 2);
+  assert.match(updated, /^SUCCESS: Skill update completed\./);
   const updatedBefore = [];
   for (const host of ['.claude', '.agents']) {
     for (const name of skillFiles) {
@@ -85,6 +88,7 @@ try {
   assert.equal(fs.statSync(agent).mtimeMs, agentMtime);
   const noUpdate = execute(process.execPath, [script, 'update', '--host', 'both', '--project', oldProject]);
   assert.equal((noUpdate.match(/^unchanged:/gm) || []).length, 2);
+  assert.match(noUpdate, /^SUCCESS: Skill files already match this version\. No changes needed\./);
   for (const [filename, bytes, mtime] of updatedBefore) {
     assert.deepEqual(fs.readFileSync(filename), bytes);
     assert.equal(fs.statSync(filename).mtimeMs, mtime);

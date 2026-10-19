@@ -52,16 +52,26 @@ function parse(argv) {
 
 let options;
 try { options = parse(process.argv.slice(2)); }
-catch (error) { console.error(error.message); process.exitCode = 2; }
+catch (error) { console.error(`ERROR: Invalid arguments. ${error.message}`); process.exitCode = 2; }
 if (options?.action === 'help') console.log(help);
 else if (options?.action === 'version') console.log(metadata.version);
 else if (options) {
   try {
     if (Number(process.versions.node.split('.')[0]) < 22) throw new Error('Node.js 22 or later is required.');
-    for (const item of (options.action === 'update' ? update : install)(options)) {
+    const results = (options.action === 'update' ? update : install)(options);
+    const changed = results.some(item => item.status !== 'unchanged');
+    console.log(changed
+      ? `SUCCESS: Skill ${options.action === 'update' ? 'update' : 'installation'} completed.`
+      : 'SUCCESS: Skill files already match this version. No changes needed.');
+    console.log(`CLI version: ${metadata.version}`);
+    for (const item of results) {
       console.log(`${item.status}: ${item.directory}`);
       if (item.backup) console.log(`  matched previous payload: ${item.fromVersion}; backup: ${item.backup}`);
     }
-    console.log('Invoke the Skill in your selected host. Installation does not verify host discovery or agent execution.');
-  } catch (error) { console.error(error.message); process.exitCode = 1; }
+    if (results.some(item => item.host === 'claude')) console.log('Next: In Claude Code, run /configure-subagents.');
+    if (results.some(item => item.host === 'codex')) console.log('Next: In Codex, run $configure-subagents.');
+  } catch (error) {
+    console.error(`ERROR: Skill ${options.action === 'update' ? 'update' : 'installation'} failed. ${error.message}`);
+    process.exitCode = 1;
+  }
 }

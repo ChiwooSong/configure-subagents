@@ -283,11 +283,17 @@ test('CLI update supports Korean/space path, all and compatible host selectors',
   seed(project); seed(project, 'codex');
   const result = run(root, ['update', '--agent', 'all', '--project', project]);
   assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /^SUCCESS: Skill update completed\.\r?\nCLI version: /);
+  assert.equal(result.stderr, '');
+  assert.doesNotMatch(result.stdout, /does not verify|ERROR:/);
   assert.equal((result.stdout.match(/^updated:/gm) || []).length, 2);
   assert.match(result.stdout, /backup:/);
   assertCurrent(project); assertCurrent(project, 'codex');
   const before = tree(project);
-  assert.equal(run(project, ['update', '--host', 'both']).status, 0);
+  const repeated = run(project, ['update', '--host', 'both']);
+  assert.equal(repeated.status, 0, repeated.stderr);
+  assert.match(repeated.stdout, /^SUCCESS: Skill files already match this version\. No changes needed\./);
+  assert.equal(repeated.stderr, '');
   assert.deepEqual(tree(project), before);
 });
 
@@ -296,8 +302,28 @@ test('CLI update invalid arguments/help/conflicts have correct exit codes and no
   const before = tree(root);
   assert.equal(run(root, ['update', '--help']).status, 0);
   for (const args of [[], ['--agent', 'both'], ['--agent', 'all', '--host', 'both'], ['--agent', 'claude', '--force'], ['--project', root]]) {
-    assert.equal(run(root, ['update', ...args]).status, 2);
+    const invalid = run(root, ['update', ...args]);
+    assert.equal(invalid.status, 2);
+    assert.match(invalid.stderr, /^ERROR: Invalid arguments\./);
+    assert.equal(invalid.stdout, '');
   }
-  assert.equal(run(root, ['update', '--agent', 'all']).status, 1);
+  const failed = run(root, ['update', '--agent', 'all']);
+  assert.equal(failed.status, 1);
+  assert.match(failed.stderr, /^ERROR: Skill update failed\./);
+  assert.equal(failed.stdout, '');
   assert.deepEqual(tree(root), before);
+});
+
+test('CLI mixed update reports completion with per-host outcomes and preserves current host', t => {
+  const root = fixture(t);
+  install({ host: 'claude', project: root }); seed(root, 'codex');
+  const before = tree(dest(root));
+  const result = run(root, ['update', '--agent', 'all']);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /^SUCCESS: Skill update completed\./);
+  assert.equal((result.stdout.match(/^updated:/gm) || []).length, 1);
+  assert.equal((result.stdout.match(/^unchanged:/gm) || []).length, 1);
+  assert.equal(result.stderr, '');
+  assert.deepEqual(tree(dest(root)), before);
+  assertCurrent(root, 'codex');
 });

@@ -33,7 +33,7 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.6`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.7`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 
@@ -44,6 +44,19 @@ npx --yes @woody_s/configure-subagents@next update --agent all
 ```
 
 `--version` reports the downloaded CLI's version, not the version of a previously copied project Skill. Read the update result for each selected host.
+
+Starting with alpha.7, the first output line makes the result explicit:
+
+| First line | Meaning |
+|---|---|
+| `SUCCESS: Skill installation completed.` | Installation finished; inspect `installed:` / `unchanged:` paths below it. |
+| `SUCCESS: Skill update completed.` | Update finished; inspect `updated:` / `unchanged:` paths and backup locations. |
+| `SUCCESS: Skill files already match this version. No changes needed.` | Successful no-op; the installed Skill files already match the CLI's bundled payload. |
+| `ERROR: Skill installation failed.` / `ERROR: Skill update failed.` | Operation failed; read the details on stderr. No success banner is printed. |
+
+Success output also shows the CLI version and the invocation command for each selected host. Invalid arguments print `ERROR: Invalid arguments.` and exit 2; operation failures exit 1; successful operations exit 0. The old warning-like sentence about discovery/execution is removed from successful CLI output. The README still distinguishes copying files from actual host discovery and Agent execution.
+
+Alpha.7 changes CLI messages only; its Skill payload is identical to alpha.6. Updating an unmodified alpha.6 installation therefore reports a successful no-op and preserves file modification times. See the [alpha.7 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.7/releases/v0.1.0-alpha.7.md).
 
 ### Migrating from the unscoped package
 
