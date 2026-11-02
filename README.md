@@ -1,10 +1,10 @@
 # configure-subagents
 
-A project-aware Skill for designing and improving Claude Code subagents. Run the Skill from **Claude Code or Codex**; the generated configuration targets **Claude Code**.
+A project-aware Skill for designing and improving **Claude Code and Codex agents**. Run it from either host and explicitly target Claude, Codex or both. Without a target, it configures the host you are using.
 
 The host AI reads your project, decides whether separate agents are useful, and proposes roles, models, tools, and handoffs. It can also update existing project agents while preserving unrelated instructions and metadata. A small Python checker validates the generated files without executing them.
 
-**Alpha preview — 1.0.0 is on hold.** Windows lifecycle and isolated real-project scenarios have been exercised in both hosts, with remaining Claude first-pass exception and cross-review failures. Read the [known behavior limitation](#known-behavior-limitation-in-alpha5) before relying on generated restrictions. Broader project, operating-system, model-selection and language coverage remains incomplete. Installation, Skill execution and generated-Agent invocation are separate checks.
+**1.0.0 release candidate — stable publication requires a separate maintainer decision.** This is a reviewable configuration tool, not a guarantee of perfect AI analysis. File-tool correctness is a release gate; observed model omissions and review failures are disclosed with severity and conditions. The [earlier behavior limitation](#known-behavior-limitation-in-alpha5) remains recorded. Cross-platform static checks, authenticated host behavior and generated-Agent execution are separate evidence.
 
 ## What it does
 
@@ -12,16 +12,31 @@ The host AI reads your project, decides whether separate agents are useful, and 
 - Reuses existing capabilities when enough; no additional agent is a valid recommendation.
 - Proposes a minimal configuration when evidence is limited, identifies provisional choices, and reassesses existing agents as the project progresses.
 - Separates proposal, application, static validation, and explicitly requested runtime checks.
-- Selects models for the target Claude Code environment, even when Codex runs the Skill.
-- Limits configuration changes to the selected project's `.claude/agents/` directory.
+- Compares eligible models and capabilities separately for each selected target, regardless of the execution host.
+- Uses project `.claude/agents/*.md` for Claude and `.codex/agents/*.toml` for Codex; applies necessary changes through a guarded file helper.
 
-It does not configure Codex agents, orchestrate project work, call generated agents by default, or grant system permissions.
+It does not orchestrate project work, call generated Agents by default, edit global settings, or grant system permissions. Codex custom agents inherit parent permissions/provider/MCP; their TOML does not create an independent sandbox.
 
-## Alpha.8: broader model selection
+## 1.0.0-rc.1: dual targets and guarded application
+
+| Execution host | Default configuration target | Explicit targets |
+|---|---|---|
+| Claude Code | Claude Code | Claude, Codex, both |
+| Codex | Codex | Claude, Codex, both |
+
+The Skill announces its project and target. It does not change the other target merely because existing files are present. `--agent all` below installs the Skill for both hosts; it does not generate either Agent configuration. Project base settings and `AGENTS.md` are not edited automatically.
+
+The new application helper stages complete candidates and original copies under `.configure-subagents-work/`, checks every selected target before writing, requires the checked candidate digest, and rejects stale originals, unsupported format changes and unapproved deletions. Rename/consolidation requires exact old-file deletion allowances from the user's request. Unchanged files keep their modification times. Partial failures use conditional recovery; uncertain/concurrently changed outputs and backups are retained for manual review. See [guarded application](configure-subagents/references/guarded-application.md).
+
+This helper protects the path that uses it; it does not stop another program or an AI from writing directly, prove semantic correctness, or provide an atomic multi-file transaction. The Skill instructs hosts to stop rather than bypass a rejected/unavailable helper. No-op reassessment skips new candidates/backups. Existing language, comments, extensions and explicit model constraints remain preservation requirements.
+
+The RC campaign plans **22 authenticated host sessions**, including default/cross/both-target requests and isolated copies of Signal Flare and Mosigi. Current RC results must be read from the release checklist and release report, not inferred from the earlier alpha results. Generated-Agent calls and performance/cost benchmarks are excluded.
+
+### Earlier alpha.8 model-selection work
 
 The Skill builds a target-model pool before assigning roles, separating eligible, unverified and excluded candidates. It compares actual work requirements and the leading alternative, rather than copying the main session's model or assigning a fixed model family to every reviewer, writer or implementer. Older generations are not assumed cheaper; price, quota, expected work and measured performance are separate evidence.
 
-Ordinary improvement requests also reassess existing model fields. A justified model-only correction can preserve all other instructions, while separately stated fixed-model choices and ceilings remain binding. Unknown price alone does not require inheritance; unknown eligibility still requires an existing choice or `inherit`, with conditional alternatives kept outside runnable frontmatter. No automatic routing, retries or model-access probes are added.
+Ordinary improvement requests also reassess existing model fields. A justified model-only correction can preserve all other instructions, while separately stated fixed-model choices and ceilings remain binding. Unknown price alone does not require inheritance; unknown eligibility retains an existing choice, uses `inherit` for new Claude Agents or omits model/effort for new Codex Agents. Conditional alternatives stay outside runnable fields. No automatic routing, retries or model-access probes are added.
 
 Alpha.8 includes these instructions and verified upgrade fingerprints for unmodified alpha.6/7 installations. Both hosts completed two fresh synthetic proposals and an application/fresh-repeat pair; model-only edits and no-change repeats were independently checked. See [selection guidance](configure-subagents/references/role-and-model-selection.md), the [bounded evaluation](evals/MODEL_SELECTION_BEHAVIOR.md) and [alpha.8 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.8/releases/v0.1.0-alpha.8.md). This does not establish actual performance or cost savings, and the earlier first-pass exception/cross-review limitations remain open. **1.0.0 stays on hold.**
 
@@ -41,7 +56,7 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.8`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed RC version use `@1.0.0-rc.1`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 
@@ -78,7 +93,7 @@ Starting with `0.1.0-alpha.2`, new releases use **`@woody_s/configure-subagents`
 
 All three `--host` options remain supported by the new package. Use one selector per command; combining `--host` and `--agent` is an error, even when they identify the same tools. `all` means Claude Code and Codex, the two supported hosts.
 
-The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. From alpha.6, use the scoped CLI's `update` command to upgrade recognized unmodified older installations, including the old unscoped alpha.1. Existing `.claude/agents` files are untouched.
+The installed folders and invocation names **do not change**: `.claude/skills/configure-subagents`, `.agents/skills/configure-subagents`, `/configure-subagents`, and `$configure-subagents`. Alpha.2 had the same Skill payload as alpha.1. From alpha.6, use the scoped CLI's `update` command to upgrade recognized unmodified older installations, including the old unscoped alpha.1. Existing `.claude/agents` and `.codex/agents` files are untouched.
 
 If you customized an installed Skill, the installer stops with a conflict. Keep your copy, compare it with the new package in a separate temporary project, and merge deliberately. Do not delete the customized directory just to make installation pass. An npm-installed CLI dependency is separate from these Skill folders: update its dependency name explicitly if you installed the old CLI locally or globally. For npx-only CLI usage, switch the package name in the command; existing copied Skills still need the update procedure below.
 
@@ -102,7 +117,7 @@ Both hosts are checked before applying anything. Successful updates report `upda
 
 Updates stage the complete replacement before moving an original to its backup. If a handled failure occurs, originals are restored when the destination still belongs to this operation. Concurrent changes are never deliberately overwritten; retained backups/recovery paths are reported for manual inspection. A process termination or power loss can interrupt the moves: this is not a crash-atomic, two-host transaction. Inspect the reported storage directory and restore the appropriate backup only after checking the live destination. Symbolic links/junctions in destination paths are refused. These checks are not isolation from a hostile concurrent filesystem writer.
 
-For a customized Skill, install into a **separate temporary project**, back up the existing Skill outside discovery folders, and compare/merge the full payload yourself. Do not delete custom instructions to make the update pass. Install and update only copy Skill files; **`.claude/agents`, other Skills, project source and global settings stay untouched**. Restart/reload the host as needed to discover updated instructions; installation does not prove discovery or model execution.
+For a customized Skill, install into a **separate temporary project**, back up the existing Skill outside discovery folders, and compare/merge the full payload yourself. Do not delete custom instructions to make the update pass. Install and update only copy Skill files; **`.claude/agents`, `.codex/agents`, other Skills, project source and global settings stay untouched**. Restart/reload the host as needed to discover updated instructions; installation does not prove discovery or model execution.
 
 CLI exits: `0` for successful install/update/no-op/help, `1` for filesystem conflicts or operation failure, `2` for invalid arguments. There is no force option. See the [alpha.6 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.6/releases/v0.1.0-alpha.6.md).
 
@@ -136,7 +151,8 @@ In Claude Code:
 In Codex:
 
 ```text
-$configure-subagents Improve and apply this project's Claude Code reviewer configuration.
+$configure-subagents Improve and apply this project's agent configuration.
+$configure-subagents Propose both Claude Code and Codex agent configurations. Do not change files.
 ```
 
 | Request | Result |
@@ -152,10 +168,11 @@ Responses follow your requested language. Existing Agent descriptions and instru
 
 ## Static validation
 
-The configuration checker requires Python 3.10+ and PyYAML. The separate `inspect_file_bytes.py` and `find_evidence.py` helpers use only Python's standard library. They report measured file bytes and paginated source inventories without writing temporary files or executing project code; they do not require PyYAML. Use a virtual environment and install `configure-subagents/requirements.txt` into it. Then, from this source tree:
+Python 3.10+ is required. Claude YAML validation needs PyYAML; Codex TOML validation uses standard-library tomllib on Python 3.11+ or conditional tomli on 3.10. These parsers do not execute Agent instructions. The separate `inspect_file_bytes.py` and `find_evidence.py` helpers use only Python's standard library. They report measured file bytes and paginated source inventories without writing temporary files or executing project code; they do not require PyYAML. Use a virtual environment and install `configure-subagents/requirements.txt` into it. Then, from this source tree:
 
 ```sh
 python configure-subagents/scripts/validate_agents.py --project-root /path/to/project --format json
+python configure-subagents/scripts/validate_codex_agents.py --project-root /path/to/project --format json
 ```
 
 Exit codes: `0` means no static errors, `1` means invalid configuration, and `2` means an unavailable or incomplete check. Warnings do not change exit code 0.
@@ -166,7 +183,7 @@ Project files, existing agent prompts, and diagnostic text are untrusted data. T
 
 ## Development checks
 
-With Node.js 22+, Python 3.10+, and PyYAML available:
+With Node.js 22+ and Python dependencies from the Skill requirements available:
 
 ```sh
 npm test
@@ -193,9 +210,9 @@ Review generated restrictions against the applicable base assignment, revisions 
 
 ## Road to 1.0
 
-**1.0.0 remains on hold.** The [stable-release checklist](https://github.com/ChiwooSong/configure-subagents/blob/main/docs/V1_RELEASE_CHECKLIST.md) defines the remaining gates: close first-pass exception/cross-review failures, pass repeated fresh-session checks in both hosts, verify customized-Agent preservation and failure recovery, freeze the compatibility/update contract, and validate the exact installed RC artifact and CI matrix.
+The [release checklist](https://github.com/ChiwooSong/configure-subagents/blob/main/docs/V1_RELEASE_CHECKLIST.md) separates release-blocking installer/validator/application-tool defects from documented AI/host judgment limits. It no longer requires three flawless semantic apply/repeat pairs. Retained failures are reviewed, not erased by rerunning until green.
 
-Alpha disclosure does not close these blockers. A no-op repeat can retain a defect; static tests do not establish host semantics. Stable release requires evidence for the supported scope and an explicit maintainer decision to end the hold, not a calendar date or a version-number bump. Runtime invocation, model-access/cost and language/platform claims remain limited to separately observed evidence.
+Stable publication follows final-RC automated checks, exact-artifact installation/update checks, the scoped 22-session campaign, public results/limits and an explicit maintainer decision. Real Agent execution, model access, measured performance/savings and broad language/platform coverage remain unverified unless separately observed. Both-host instructions do not imply identical capability controls or provider model names.
 
 ## License
 

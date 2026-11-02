@@ -1,7 +1,7 @@
 {
   "name": "@woody_s/configure-subagents",
-  "version": "0.1.0-alpha.8",
-  "description": "A project-aware Skill for designing and improving Claude Code subagents, usable from Claude Code or Codex.",
+  "version": "1.0.0-rc.1",
+  "description": "A project-aware Skill for designing, validating and safely applying Claude Code and Codex agent configurations.",
   "type": "module",
   "bin": {
     "configure-subagents": "bin/configure-subagents.js"
@@ -42,7 +42,9 @@
     "configure-subagents/references/*.md",
     "configure-subagents/scripts/validate_agents.py",
     "configure-subagents/scripts/inspect_file_bytes.py",
-    "configure-subagents/scripts/find_evidence.py"
+    "configure-subagents/scripts/find_evidence.py",
+    "configure-subagents/scripts/validate_codex_agents.py",
+    "configure-subagents/scripts/apply_agents.py"
   ],
   "scripts": {
     "test": "node --test tests/install.test.js tests/update.test.js",

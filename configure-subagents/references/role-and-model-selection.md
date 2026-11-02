@@ -15,7 +15,7 @@ Recommend sequential work for roles editing the same files. Instructions are not
 
 ## Select models for the target environment
 
-The target is **Claude Code**, even if Codex runs this Skill. Do not copy Codex model names, reasoning options, or API identifiers into Claude agent configuration.
+The target is the selected **Claude Code and/or Codex environment**, independently of which host runs this Skill. Build separate evidenced pools for both targets. Do not copy model aliases, reasoning controls or tool syntax between providers; a Codex-host identity does not establish Claude access, and a Claude-host identity does not establish Codex access.
 
 Build the candidate pool before assigning individual roles. The main session's model is one candidate, not the default answer or evidence that other models are unavailable. Different model assignments are not a goal in themselves.
 
@@ -36,16 +36,16 @@ For each role assess ambiguity, reasoning/context/tool needs, how its output can
 - Unknown price or quota does not make eligible models unavailable. Choose by supported task-fit evidence and explain that cost optimization is not measured. If only one suitable candidate is established, explain that limit; do not manufacture variety. If every candidate needs the same capability, the same model for all may be justified.
 - Consider situations as well as roles: routine and high-risk reviews can have different assignments. Define when difficult/ambiguous work should be returned to the main AI, or describe a supported explicit override. Static definitions do not implement automatic retries, routing, escalation or budgets.
 
-If a suitable explicit model's eligibility cannot be established, preserve an existing choice or use `model: inherit` for a new Agent, including proposal code blocks and candidates. Keep unverified alternatives outside runnable frontmatter, conditional on eligibility evidence. Explain the gap and mark role-specific optimization unfinished; do not ask the user to approve this fallback or substitute an unsupported model until it fails. Also honor an explicit instruction to follow the main session.
+If suitable-model eligibility cannot be established, preserve an existing choice. For a new Claude Agent use `model: inherit`; for a new Codex Agent omit `model` and `model_reasoning_effort` (never write literal `inherit`). This also applies to proposals/candidates. Keep unverified alternatives outside runnable fields, conditional on eligibility evidence. Explain the gap and mark optimization unfinished; do not ask approval for this fallback or try an unsupported model until it fails. Honor an explicit instruction to follow the target's main session.
 
 | Evidence | Configuration decision |
 |---|---|
 | Separately stated fixed model or ceiling | Preserve the constraint; do not claim runtime access or enforcement was tested. |
 | Existing model field without a separately stated fixed-model constraint | Reassess in an ordinary improvement request; change only with a supported alternative and a concrete task-fit/efficiency reason in apply mode. |
 | Eligible target choices established | Compare by requirements and expected total work; report the eligibility source and distinguish estimates from measurements. |
-| Only recognized aliases, generic documentation, or unavailable account information | Existing choice or `inherit` in frontmatter. Possible alternatives may be discussed separately as conditional options requiring eligibility evidence. |
+| Only recognized aliases, generic documentation, or unavailable account information | Existing choice; new Claude `inherit` or omitted new Codex model/effort. Discuss alternatives conditionally outside executable configuration. |
 
-Inheritance means the **future Claude Code main session's model**, not the Codex host model. Environment variables, invocation options, and policies may affect the actual model. Without runtime evidence, do not claim verified model use or cost savings.
+Inheritance means the **future target runtime's resolved parent/default settings**, not the other host's model. Claude uses an explicit `inherit` value; Codex resolves omitted model/effort using its parent/defaults. Codex custom-file model/effort settings can take precedence over spawn/default values; a model-only change may retain an already resolved effort. Verify the pair against the selected target version. Environment, invocation and policy can affect actual use; without runtime evidence do not claim verified model use or savings.
 
 Keep eligibility separate from capacity, price and measured performance. A dated quota incident is historical context, not a current constraint; a limit for one model does not prove another has spare or independent quota. A current target picker can establish selectable choices, but not successful invocation, remaining quota, price or savings. Choose by task fit among those eligible choices and leave these operational claims unverified. If eligibility itself is unknown, use the fallback above. Do not turn an old log or an unsupported expectation of lower cost into a model assignment.
 
@@ -61,7 +61,7 @@ On repeat with the same candidate pool, constraints and adequate assignments, ma
 
 Report decisions rather than offering a questionnaire. Summarize candidate groups/sources once, then for each Agent report **work requirement → selected model → leading alternative and rejection reason → unknowns**. Avoid an exhaustive Agent-by-model matrix. For example, where eligibility and workload evidence support it: "For this bounded extraction task I propose [eligible model]; [alternative] adds reasoning capacity the deterministic checks do not require. Cost is estimated, not measured." For an ambiguous cross-service design role, identify why a more capable eligible candidate is needed instead. Do not treat either example as a fixed family-to-role mapping. In proposal mode do not imply the assignment was installed.
 
-Do not ask "Use inherit?", "Use the same model or choose by role?", or "Prioritize cost, speed, or quality?" as routine setup questions. Lack of an explicit preference is not a blocker. When the fallback is necessary, explain that the agent will follow the main Claude Code conversation's model when invoked, and why a separate assignment could not be verified. Mention the technical value only after its meaning if useful.
+Do not ask "Use inherit?", "Use the same model or choose by role?", or "Prioritize cost, speed, or quality?" as routine setup questions. Lack of a preference is not a blocker. Explain fallback in the user's language as following the target runtime's parent/default model, and why a separate assignment could not be verified. Mention syntax only after its meaning if useful.
 
 If a material unresolved model limit prevents a suitable assignment, ask one concrete ceiling question. Inspect the current target model and known constraints first; do not guess the current model or describe it as the most capable available model merely because it is in use. For example, when Sonnet is verified as the current Claude Code model and higher-capability choices are available:
 
@@ -71,7 +71,7 @@ If a material unresolved model limit prevents a suitable assignment, ask one con
 
 Translate examples into the user's language. This question sets a boundary, not the model for every agent; make individual assignments yourself within it. If no ceiling decision is needed, do not ask. If a ceiling was explicitly requested but the eligible models cannot be established, leave affected assignments unresolved instead of assuming `inherit` enforces it. A fixed ceiling requires suitable explicit assignments; `inherit` follows later main-session changes. Configuration alone is not enforcement against invocation overrides or runtime policies.
 
-When this Skill runs in Codex, its current model (for example Astra) is not a Claude Code model or a valid ceiling for Claude configuration. Inspect the target Claude environment rather than copying that model or guessing a cross-provider equivalent. Do not imply that inheritance copies conversation history or permissions, guarantees a lower price, or overrides runtime model policies.
+When configuring the other host, the executing host's current model is not a valid target-model ceiling or an equivalent model. Inspect that target instead of guessing a cross-provider mapping. Inheritance does not copy conversation history, guarantee a lower price, or override runtime policy. For tool selection, use Claude's supported tool lists or Codex's documented feature/skill controls; neither role instructions nor unsupported child permission fields establish separate isolation. See [Codex format](codex.md).
 
 ## Select tools
 

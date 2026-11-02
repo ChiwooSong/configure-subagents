@@ -9,9 +9,9 @@ Read as needed rather than collecting every file:
 - Applicable `AGENTS.md`, `CLAUDE.md`, project descriptions, and development instructions.
 - Manifests and representative source directories identifying languages and frameworks.
 - Build, test, review, and CI commands. Distinguish a declared command from a successful run.
-- Project `.claude/agents/` and existing Skill names/descriptions; open relevant bodies only.
+- Selected project `.claude/agents/` and/or `.codex/agents/`, and existing Skill names/descriptions; open relevant instructions only. Other target files are evidence, not automatic edit scope.
 - Recurring work the user wants to delegate, observed review gaps, and handoff costs.
-- Non-secret target Claude Code information: version, configured/allowed models, and relevant tools.
+- Non-secret information for each selected target: version, configured/allowed models, reasoning support, relevant capabilities and inherited policies.
 
 Read global and parent agents only as needed for naming collisions and effective scope. Mark inaccessible managed, plugin, or session configuration as unknown. Do not collect credentials, secret files, or environment dumps. Do not execute project code merely to analyze its configuration.
 
@@ -80,7 +80,7 @@ Start with the main agent and existing capabilities. Add only roles whose purpos
 
 For each provisional choice, state what is tentative, the supporting observation and assumption, what remains unknown, and what evidence would justify revisiting it. Keep this in the normal report; do not require a new state file or an extensive questionnaire. For example: a reviewer may be useful once a documented cross-service change flow actually recurs; until then, reuse the existing review capability.
 
-Limited project information does not itself make model availability unknown. Continue selecting suitable models from verified target-environment information and existing constraints; do not automatically use `inherit` just because the project is young.
+Limited project information does not itself make model availability unknown. Continue selecting from verified target information and constraints; project age alone does not require Claude inheritance or omitted Codex model fields.
 
 Keep the requested mode. Proposal mode remains read-only. An apply request permits a justified minimal configuration, but does not require creating speculative agents. If nothing is sufficiently grounded to apply, report that outcome without fabricating settings.
 

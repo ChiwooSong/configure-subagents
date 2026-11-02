@@ -22,7 +22,7 @@ Use either --agent or the compatible --host option, not both.
 Identical installations are unchanged; differing installations are never overwritten.
 Use update for recognized, unmodified older releases. Modified or unknown Skills are preserved.
 Update preflights all selected hosts and keeps backups in .configure-subagents-updates/.
-Project .claude/agents files are never changed by install or update.
+Project .claude/agents and .codex/agents files are never changed by install or update.
 No model calls, agent generation, global setup, or Python dependency installation.
 `;
 

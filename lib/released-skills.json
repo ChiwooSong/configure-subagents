@@ -94,5 +94,22 @@
       "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
       "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
     }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.8",
+    "integrity": "sha512-SYHS8LKPIUeM18RjzV7Je2BQkUC9kxVz9osyU02GeSF2+uqTxLWWT04gzc9uRa39QWdkl/qa99qiRAybKPo5Dw==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "12f1742b71c1dfc57f7b7eb877b1b56655ec708b67a9ec243cbed6d540df6453",
+      "references/claude-code.md": "daeaf0e644e1a23d6d06c25c75c88766bf61eddd762445154afa7676ccd54da3",
+      "references/host-usage.md": "be7146e905560cff07fba53ea0ab08d944dd58491e8305e7ed530fd517f683cc",
+      "references/project-analysis.md": "10d149c264a61404a438861827bc6eed1163f26305d1e8b6bb95decc2aae879e",
+      "references/role-and-model-selection.md": "c998d03fb26ac33613f01ac76e3aa041594154ce49a33ef8f6b66caa5c387856",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/find_evidence.py": "e77e2f3f68e5d5c3266d6e9f4c4c9902b456286e289e2d48c886a9b4de299651",
+      "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
   }
 ]

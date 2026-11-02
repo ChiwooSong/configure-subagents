@@ -38,6 +38,10 @@ try {
   const installed = path.join(consumer, 'node_modules', ...packed[0].name.split('/'));
   const project = path.join(temp, '한글 target project');
   fs.mkdirSync(project);
+  fs.mkdirSync(path.join(project, '.codex/agents'), { recursive: true });
+  const codexAgent = path.join(project, '.codex/agents/custom.toml');
+  fs.writeFileSync(codexAgent, 'name="custom"\ndescription="Keep"\ndeveloper_instructions="Keep user content."\n');
+  const codexBefore = [fs.readFileSync(codexAgent), fs.statSync(codexAgent).mtimeMs];
   const script = path.join(installed, 'bin', 'configure-subagents.js');
   const output = execute(process.execPath, [script, 'install', '--agent', 'all', '--project', project]);
   assert.equal((output.match(/^installed:/gm) || []).length, 2);
@@ -58,6 +62,8 @@ try {
     assert.equal(fs.statSync(filename).mtimeMs, mtime);
     assert.deepEqual(fs.readFileSync(filename), bytes);
   }
+  assert.deepEqual(fs.readFileSync(codexAgent), codexBefore[0]);
+  assert.equal(fs.statSync(codexAgent).mtimeMs, codexBefore[1]);
   const oldProject = path.join(temp, 'old 한글 project');
   fs.mkdirSync(oldProject);
   const old = JSON.parse(fs.readFileSync(path.join(packageRoot, 'tests/fixtures/released-skills.json'), 'utf8')).at(-1);
@@ -96,9 +102,31 @@ try {
   const metadata = JSON.parse(fs.readFileSync(path.join(installed, 'package.json'), 'utf8'));
   assert.equal(metadata.name, '@woody_s/configure-subagents');
   assert.equal(metadata.license, 'MIT');
-  assert.equal(metadata.publishConfig.tag, 'next');
+  assert.equal(metadata.publishConfig.tag, metadata.version.includes('-') ? 'next' : 'latest');
   assert.equal(fs.readFileSync(path.join(installed, 'LICENSE'), 'utf8'), fs.readFileSync(path.join(packageRoot, 'LICENSE'), 'utf8'));
   assert.equal(execute(process.execPath, [script, '--version']).trim(), metadata.version);
+  // Exercise the exact installed Python payload rather than the checkout copy.
+  const python = process.env.SUBAGENTS_TEST_PYTHON || 'python';
+  const guarded = path.join(installed, 'configure-subagents/scripts/apply_agents.py');
+  const target = path.join(temp, 'guarded 한글 project');
+  fs.mkdirSync(target);
+  const invokeGuard = args => JSON.parse(execute(python, [guarded, ...args, '--project-root', target, '--target', 'both']));
+  const prepared = invokeGuard(['prepare']);
+  fs.writeFileSync(path.join(prepared.candidate_paths.claude, 'reviewer.md'), '---\nname: reviewer\ndescription: Review\ntools: Read\nmodel: inherit\n---\nReport findings.\n');
+  fs.writeFileSync(path.join(prepared.candidate_paths.codex, 'reviewer.toml'), 'name="reviewer"\ndescription="Review"\ndeveloper_instructions="Report findings."\n[features]\nshell_tool=false\n');
+  const checked = invokeGuard(['check', '--transaction', prepared.transaction]);
+  const applied = invokeGuard(['apply', '--transaction', prepared.transaction, '--candidate-digest', checked.candidate_digest]);
+  assert.equal(applied.status, 'applied');
+  const guardedBefore = [];
+  for (const [host, suffix] of [['.claude', 'md'], ['.codex', 'toml']]) {
+    const file = path.join(target, host, 'agents', `reviewer.${suffix}`);
+    guardedBefore.push([file, fs.readFileSync(file), fs.statSync(file).mtimeMs]);
+  }
+  assert.equal(invokeGuard(['apply', '--transaction', prepared.transaction, '--candidate-digest', checked.candidate_digest]).status, 'unchanged');
+  for (const [file, bytes, mtime] of guardedBefore) {
+    assert.deepEqual(fs.readFileSync(file), bytes);
+    assert.equal(fs.statSync(file).mtimeMs, mtime);
+  }
   console.log(`Offline tarball verified: ${packed[0].files.length} allowlisted files; both hosts installed and updated from ${old.version}; repeats and project agents preserved.`);
 } finally {
   assert.equal(path.dirname(fs.realpathSync(temp)), tempBase);

@@ -1,78 +1,41 @@
 # 1.0.0 release checklist
 
-Updated: 2026-11-02 (Asia/Seoul). **Decision: HOLD.** Alpha releases ship through `next` with explicit limitations. Alpha.8 improves model selection and adds bounded two-host evidence; it is not a stable-release candidate or evidence that all behavior gates pass.
+Updated: 2026-11-02 (Asia/Seoul). **RC implementation/evaluation in progress; stable publication requires a separate maintainer decision.** This replaces the earlier three-flawless-pairs gate following the maintainer's product decision. Historical failures remain evidence, not retroactively passed tests.
 
-Check a gate only when its stated evidence exists for the release candidate. Preserve failed attempts; a later successful run must not erase an earlier failure. README warnings alone do not close correctness or preservation blockers.
+## Product contract
 
-## Established baseline
+- [x] A reviewable project-aware configuration tool, not a promise of error-free AI analysis.
+- [x] Both execution hosts and both configuration targets are in scope. Default target is the executing host; explicit Claude/Codex/both requests override it.
+- [x] Generated-Agent invocation, benchmarks, global settings and automatic orchestration are excluded.
+- [x] File-tool damage, unauthorized deletion, path escape, conflict overwrite and incorrect recovery are release blockers. AI semantic omissions/review skips/unnecessary revisions are classified and disclosed; no perfect semantic pass rate is required.
 
-- [x] Project-local Claude Agent target and dual Skill hosts are documented; global configuration and automatic orchestration are excluded.
-- [x] CLI conflicts/no-overwrite behavior and validator JSON/exit-code behavior have regression coverage.
-- [x] Alpha.5 local tests pass: Python 56, Node 27, Skill structure and the 15-file offline artifact install/repeat test.
-- [x] Alpha.6 update coverage: Node 59 tests, Python 56 tests, Skill structure and 17-file offline artifact checks. Unmodified published alpha.1/2/4/5 upgrade; customized trees stop unchanged; backups, conditional rollback and existing Agent preservation are exercised. See the [update report](../evals/UPDATE_COMMAND.md).
-- [x] Alpha.7 CLI messaging coverage: Node 61 tests and the tarball check distinguish install/update/no-op success from stderr failures, including mixed per-host results. Skill payload is unchanged from alpha.6; this does not close a host-behavior gate.
-- [x] R8 isolated real-project runs preserve the selected original files and produce byte/mtime-preserving fresh repeats in both hosts.
-- [x] Claude's remaining first-pass/cross-review failures are disclosed with the tested host/model/environment.
-- [x] Alpha.8 model-selection evidence: two independent eight-case proposals per host, then model-only application and a fresh same-request repeat. User-fixed models, Agent prose/metadata and BOM/CRLF are preserved; both repeats preserve observed file bytes/mtimes. Synthetic access/pricing/workload inputs do not establish actual access, performance or savings. Incomplete private JSON reports and earlier blocked attempts remain disclosed. See the [model-selection report](../evals/MODEL_SELECTION_BEHAVIOR.md).
-- [x] Alpha.8 local regression baseline: Node 63, Python 69, Skill structure checks and the 17-file offline artifact install/update/repeat test; unmodified alpha.6/7 upgrade fingerprints are covered. These are prior evidence, not final-RC or cross-platform host completion.
+## Coding and automated gates
 
-These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT_BEHAVIOR.md) tests different role scopes in the two hosts; Codex's reviewer success does not establish execution-worker permission coverage.
+- [ ] Claude interface unchanged; standalone Codex TOML checker and target-specific model/capability guidance verified.
+- [ ] Guarded prepare/check/apply covers both targets, exact deletion allowances, formatting, stale originals/candidates, no-op replay and conditional recovery.
+- [ ] Negative/fault tests pass for mid-application failure, another writer's changes, incomplete writes/task records, links/junctions and unavailable dependencies.
+- [ ] Installer/update preserve customized Skills and both Agent trees; captured public alpha.8 upgrade fixtures pass.
+- [ ] Exact tarball includes only intended CLI/Skill/docs/license files and exercises the installed checker/application scripts.
+- [ ] Complete Node/Python/Skill checks and all six OS/Python CI combinations pass on the RC commit. No live models run in CI.
 
-## 1. Freeze the supported scope and acceptance matrix
+## Installed RC behavior campaign
 
-- [ ] Record the RC commit, complete installed Skill hashes, host versions, per-session models and OS. Explicitly distinguish installer/validator platform support from authenticated host-behavior support. Do not advertise every language, model or OS as tested.
-- [ ] Define supported behavior for propose, apply, validation-only and repeat. Keep generated-Agent runtime invocation separate unless explicitly included in the release claims.
-- [ ] Use the matrix below in both hosts with realistic raw inputs, fresh sessions, isolated copies and independent snapshots. Do not put expected outcomes or known defects in host prompts.
+The [RC report](../evals/RC1_BEHAVIOR.md) separates target, host, tool result, structured report and semantic assessment. The 22 sessions are bounded evidence, not a success-rate guarantee.
 
-| Case | Required outcome |
-|---|---|
-| Sparse script/design project | Minimal justified proposal, including no added Agent; clear assumptions and revisit conditions; no writes in proposal mode |
-| Service/code project and document project | Roles follow actual work and boundaries rather than a fixed roster |
-| Existing customized Agent, then project growth | Minimal necessary edit; user prose, fields, comments, explicit constraints and unrelated files preserved |
-| Same-state fresh repeat | Adequate configuration unchanged in bytes and mtime; a real defect correction is reported as a correction, not a no-op |
-| Validation-only | Diagnostics without configuration edits, hook execution or MCP startup |
-| Unknown and verified target-model information | Preserve existing choice or use `inherit` when eligibility is unknown; autonomous task-fit choices within verified constraints; no Codex model IDs in Claude settings |
-| Broad model comparison and existing assignment reassessment | Consider eligible alternatives across families/versions; compare actual task requirements and expected total work; do not infer price from age/family; preserve separately fixed choices and avoid same-state model rotation |
-| English/Korean response and Agent conventions | Requested response language does not translate an existing Agent; explicit Agent translation is handled separately |
-| LF/CRLF/BOM and concurrent changes | Measured formatting preservation and no overwrite of concurrent work |
+- [ ] Each host: two fresh proposals (default/cross target), two synthetic apply/repeat pairs (default/both), two real-project apply/repeat pairs (default/both), one validation-only session (both).
+- [ ] Inputs and installed Skill bytes frozen; host versions, requested/observed models, commands, identities/bytes/mtimes, failures and approvals recorded.
+- [ ] Default target and cross-target protected application success plus a same-state no-change repeat observed in each host. Authentication/permission blocks are not passes.
+- [ ] Both real-project sources preserved; ignored evaluation copies exclude secrets, runtime data and dependencies. External source changes are reported without rollback.
+- [ ] All 22 outcomes retained and classified: tool defect, model/host judgment limit, permission/authentication block or harness defect. No rerun-until-green policy.
+- [ ] Known R8 first-pass/cross-review failures remain disclosed; no intrinsic-model-cause claim, runtime-use claim or cost-saving claim is inferred.
 
-## 2. Close first-pass exception and cross-review failures — blocking
+## Compatibility, publication and stable decision
 
-- [ ] On the two authorized real-project snapshots, cover representative execution-capable workers and reviewers in both hosts. Record any deliberately narrower role and do not count it as testing an omitted responsibility.
-- [ ] Resolve the known reproduction/design-only versus universal fix-to-green conflict. Preserve conditional isolated verification, shared-file exceptions and approved wrapper subprocess paths without inventing broader authority.
-- [ ] Before first installation, demonstrate independent source-area retrieval, base/revision/handoff interpretation, the actual candidate reread and a concrete source comparison. A YAML pass or final checklist assertion is insufficient.
-- [ ] Run **three independent fresh APPLY → fresh REPEAT pairs per host** for the high-risk exception scenario, with the same frozen inputs/model settings. Require zero unresolved material scope contradictions or skipped cross-review gates, and zero unjustified repeat edits. Record every attempt, including failures. Three passes are a bounded acceptance sample, not a universal reliability guarantee.
-- [ ] If this remains unreliable, keep 1.0.0 on hold. A proposed reduction of the supported feature scope requires a new product decision and matching tests; do not silently redefine the feature just to turn the gate green.
+- [ ] Public CLI arguments/paths/outcomes, checker JSON schema/exit codes, parser dependencies, target controls and manual recovery/merge workflows documented.
+- [ ] Package scope/owner, MIT, repository/migration links and Git/tarball contents audited.
+- [ ] RC published only to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass.
+- [ ] Public RC result/limitation ledger complete with commit, CI, installed hashes and exact artifact verification. Host behavior is Windows evidence; cross-platform CI is static evidence.
+- [ ] Maintainer separately approves stable publication after reviewing results.
+- [ ] Final 1.0.0 metadata/docs/latest channel, exact-commit CI and public artifact verified. A Skill payload change returns to affected RC evaluation; metadata-only promotion does not imply new host runs.
 
-## 3. Verify preservation, failure handling and reporting
-
-- [ ] On the final RC, repeat the customized-Agent growth test with both hosts, preserving language, comments, extra fields, separately fixed model constraints, encoding/BOM, line endings and final newline. An ordinary existing model field may be minimally corrected with suitable eligible alternatives and supporting evidence.
-- [ ] Exercise an original changing after analysis and a failure during application in isolated fixtures. Confirm fresh reads, recalculated edits and conditional recovery that preserves another writer's changes. Installer rollback tests alone do not prove host editing behavior.
-- [ ] Exercise missing Python/PyYAML, denied access, malformed YAML and unavailable model information. Reports must distinguish attempted, blocked, failed, retried and completed checks without permission bypasses or global dependency installation.
-- [ ] Confirm tool-capability descriptions and byte-format claims match measured evidence. Keep task-authored candidates/backups/helpers within the permitted root and outside discovery paths.
-
-## 4. Freeze the public compatibility and update contract
-
-- [ ] Document stable CLI arguments, required host selection, install destinations, conflict behavior, exit codes and validator JSON schema/version. Decide how future incompatible changes are versioned.
-- [ ] Repeat alpha.6's unmodified-alpha upgrade and customized-Skill conflict checks on the final RC, including the manual compare/backup/merge workflow for custom content. No force upgrade is required; custom instructions and project Agents must survive.
-- [ ] Recheck the published package's scope/owner, MIT license, repository links and migration guidance. Audit Git/tarball contents for private paths, raw evaluation logs, credentials and unrelated files.
-
-## 5. Validate the exact RC artifact
-
-- [ ] Pass all six static CI combinations on the exact RC commit: Ubuntu, Windows and macOS Intel with Python 3.10/3.13 and Node 22. These jobs do not prove host behavior on all three OSes.
-- [ ] Publish an RC only to `next`, verify tarball integrity and metadata, install that registry artifact in fresh temporary projects for both hosts, and confirm exact payload/no-change reinstall/conflict refusal.
-- [ ] Confirm Skill discovery and the supported behavior matrix from the **installed RC payload**, not merely the source checkout. Rerun affected checks after changes and explain any output-only fixes tested separately.
-- [ ] Rerun the model-selection cases on the installed RC, including the now self-contained apply/repeat JSON request. Retain exact inputs and distinguish mechanical report parsing from independently reviewed selection/preservation. Add non-secret real target-eligibility evidence for supported provider configurations; synthetic prices alone cannot support performance or savings claims.
-- [ ] Review an RC issue ledger with no unresolved correctness, preservation or security blockers in the supported scope. Close each item with evidence and a reviewer decision, not elapsed time or a higher version number.
-
-## 6. Declare 1.0.0 only after the gates pass
-
-- [ ] Produce a completion record linking the RC commit, CI run, evaluated Skill hashes, host matrix, retained failures and registry smoke evidence. Keep remaining non-blocking limits explicit.
-- [ ] Obtain the maintainer's explicit decision to end the current 1.0.0 hold.
-- [ ] Publish `1.0.0` to `latest`, create a non-prerelease GitHub release, update version/update instructions, and verify the public artifact again. Retain `next` as an intentional preview channel.
-
-## Claims requiring additional evidence
-
-Generated-Agent discovery/invocation and observed model/tool enforcement are not established by installation or Skill execution. If stable-release claims include them, request a separately scoped temporary-project runtime evaluation and record actual discovery, invocation, response and observable model evidence. Do not silently invoke Agents as part of ordinary setup or infer runtime success from frontmatter.
-
-Current blockers and historical results are linked from the [evaluation index](../evals/EVALUATION.md) and [release-readiness assessment](../evals/RELEASE_READINESS_2026-10-18.md). Alpha.5 publication and CI success do not automatically check any final-RC gate above.
+Prior baselines: [alpha.8 model selection](../evals/MODEL_SELECTION_BEHAVIOR.md), [R8 source retrieval](../evals/RETRIEVAL_AUDIT_BEHAVIOR.md), [updates](../evals/UPDATE_COMMAND.md). They do not substitute for the installed RC campaign.
