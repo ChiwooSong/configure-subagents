@@ -60,5 +60,39 @@
       "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
       "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
     }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.6",
+    "integrity": "sha512-u3ujM1nWTBFgzEXnohtUMLp3fLDWAOXwcXzkwtxXz5mP1zHfFb4f4NSWPld7UVlv7GzTr5Us9Av34MIK4qK3Gw==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "f6fcf9a3c60ea3a961d26cb8285f3473e49056d65298321ac1f1ca71436531f1",
+      "references/claude-code.md": "15d974d02fe5e9f0a3c83b1ab639c7605533144c912bf7b7c811656b0af7d237",
+      "references/host-usage.md": "be7146e905560cff07fba53ea0ab08d944dd58491e8305e7ed530fd517f683cc",
+      "references/project-analysis.md": "d9b596b83e17c08f1fa964cd50c6fade5bdc628c33b1b63d6e4f2aed5def5453",
+      "references/role-and-model-selection.md": "2e30124e70258f202a1a98ff5ced6593a447e95789f57cfda599386bf9bd6ecc",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/find_evidence.py": "e77e2f3f68e5d5c3266d6e9f4c4c9902b456286e289e2d48c886a9b4de299651",
+      "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
+  },
+  {
+    "package": "@woody_s/configure-subagents",
+    "version": "0.1.0-alpha.7",
+    "integrity": "sha512-4nV6RsSTL0XFrTVhmEFT9QolQ/UUuzLCKDKipxXDbVZKcJBS6NFsyAYHE63GxM7fNui8Qay3hSvSJi3pEV7BBg==",
+    "files": {
+      "LICENSE": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec",
+      "SKILL.md": "f6fcf9a3c60ea3a961d26cb8285f3473e49056d65298321ac1f1ca71436531f1",
+      "references/claude-code.md": "15d974d02fe5e9f0a3c83b1ab639c7605533144c912bf7b7c811656b0af7d237",
+      "references/host-usage.md": "be7146e905560cff07fba53ea0ab08d944dd58491e8305e7ed530fd517f683cc",
+      "references/project-analysis.md": "d9b596b83e17c08f1fa964cd50c6fade5bdc628c33b1b63d6e4f2aed5def5453",
+      "references/role-and-model-selection.md": "2e30124e70258f202a1a98ff5ced6593a447e95789f57cfda599386bf9bd6ecc",
+      "requirements.txt": "195d92b82f91999cc32a0a29cf4f1969d11a2d4dac95317dd6cad57b61e1add0",
+      "scripts/find_evidence.py": "e77e2f3f68e5d5c3266d6e9f4c4c9902b456286e289e2d48c886a9b4de299651",
+      "scripts/inspect_file_bytes.py": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a",
+      "scripts/validate_agents.py": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    }
   }
 ]

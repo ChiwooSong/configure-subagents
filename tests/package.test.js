@@ -99,7 +99,7 @@ try {
   assert.equal(metadata.publishConfig.tag, 'next');
   assert.equal(fs.readFileSync(path.join(installed, 'LICENSE'), 'utf8'), fs.readFileSync(path.join(packageRoot, 'LICENSE'), 'utf8'));
   assert.equal(execute(process.execPath, [script, '--version']).trim(), metadata.version);
-  console.log(`Offline tarball verified: ${packed[0].files.length} allowlisted files; both hosts installed and updated from alpha.5; repeats and project agents preserved.`);
+  console.log(`Offline tarball verified: ${packed[0].files.length} allowlisted files; both hosts installed and updated from ${old.version}; repeats and project agents preserved.`);
 } finally {
   assert.equal(path.dirname(fs.realpathSync(temp)), tempBase);
   assert.ok(path.basename(temp).startsWith('configure-subagents-package-'));

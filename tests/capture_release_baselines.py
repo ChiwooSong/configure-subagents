@@ -18,6 +18,8 @@ RELEASES = [
     ("@woody_s/configure-subagents", "0.1.0-alpha.2"),
     ("@woody_s/configure-subagents", "0.1.0-alpha.4"),
     ("@woody_s/configure-subagents", "0.1.0-alpha.5"),
+    ("@woody_s/configure-subagents", "0.1.0-alpha.6"),
+    ("@woody_s/configure-subagents", "0.1.0-alpha.7"),
 ]
 
 

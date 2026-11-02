@@ -98,3 +98,5 @@ The [2026-10-18 release-readiness assessment](RELEASE_READINESS_2026-10-18.md) c
 The [R8 source retrieval audit](RETRIEVAL_AUDIT_BEHAVIOR.md) diagnoses the observed first-pass search gap and evaluates operation inventories and independent source-chain review.
 
 The [1.0.0 checklist](../docs/V1_RELEASE_CHECKLIST.md) keeps stable release on hold and separates prior alpha evidence from exact-RC gates. The [alpha.5 release notes](../releases/v0.1.0-alpha.5.md) disclose remaining behavior limits.
+
+The [alpha.8 model-selection evaluation](MODEL_SELECTION_BEHAVIOR.md) covers broad eligible candidate comparison, synthetic price counterexamples, minimal model-only corrections, separately fixed models and fresh-session no-change repeats in both hosts. It records the incomplete private JSON reports and does not establish actual model access, performance or savings. Earlier first-pass exception/cross-review failures remain open.

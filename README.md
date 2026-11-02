@@ -17,6 +17,14 @@ The host AI reads your project, decides whether separate agents are useful, and 
 
 It does not configure Codex agents, orchestrate project work, call generated agents by default, or grant system permissions.
 
+## Alpha.8: broader model selection
+
+The Skill builds a target-model pool before assigning roles, separating eligible, unverified and excluded candidates. It compares actual work requirements and the leading alternative, rather than copying the main session's model or assigning a fixed model family to every reviewer, writer or implementer. Older generations are not assumed cheaper; price, quota, expected work and measured performance are separate evidence.
+
+Ordinary improvement requests also reassess existing model fields. A justified model-only correction can preserve all other instructions, while separately stated fixed-model choices and ceilings remain binding. Unknown price alone does not require inheritance; unknown eligibility still requires an existing choice or `inherit`, with conditional alternatives kept outside runnable frontmatter. No automatic routing, retries or model-access probes are added.
+
+Alpha.8 includes these instructions and verified upgrade fingerprints for unmodified alpha.6/7 installations. Both hosts completed two fresh synthetic proposals and an application/fresh-repeat pair; model-only edits and no-change repeats were independently checked. See [selection guidance](configure-subagents/references/role-and-model-selection.md), the [bounded evaluation](evals/MODEL_SELECTION_BEHAVIOR.md) and [alpha.8 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.8/releases/v0.1.0-alpha.8.md). This does not establish actual performance or cost savings, and the earlier first-pass exception/cross-review limitations remain open. **1.0.0 stays on hold.**
+
 ## Installation
 
 Requires Node.js 22 or newer. Install for both supported tools, using the same scoped-package and `--agent all` convention as HTMLEdit:
@@ -33,7 +41,7 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.7`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed version use `@0.1.0-alpha.8`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 

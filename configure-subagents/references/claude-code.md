@@ -26,7 +26,7 @@ Finish when the requested change is reviewed; if context is missing, report it.
 Do not implement fixes or run project commands.
 ```
 
-This example is not a default agent to create everywhere. Adapt responsibilities, inputs, outputs, and completion criteria to demonstrated needs. Explain model selection in the user report.
+This is a format illustration with **unknown model eligibility**, so it uses `inherit`; it is neither a default Agent nor a default model decision. If `sonnet` is confirmed eligible and fits the actual requirements after comparison, `model: sonnet` is a valid explicit choice. If a verified version/price is essential, use that eligible version's supported ID. With only generic documentation or no eligible suitable model, retain the illustrated fallback and discuss unverified alternatives outside frontmatter. Do not apply an example's model without the candidate-pool assessment. Adapt responsibilities, inputs, outputs, and completion criteria to demonstrated needs.
 
 For an existing file, determine its prose language from its instructions and description before editing. Keep new prose in that language even when the user requests a report in another language. For example, improve an English reviewer in English and explain the changes to the user in Korean. Only an explicit request to translate or change the Agent's language overrides this convention. Preserve quoted terms, identifiers, and intentional multilingual sections; for a mixed file, follow the local section's convention rather than translating unrelated text. Before applying, inspect the description and every inserted section for accidental language switching.
 

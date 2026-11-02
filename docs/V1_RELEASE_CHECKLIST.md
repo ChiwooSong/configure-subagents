@@ -1,6 +1,6 @@
 # 1.0.0 release checklist
 
-Updated: 2026-10-19 (Asia/Seoul). **Decision: HOLD.** Alpha releases ship through `next` with explicit limitations. Alpha.6 adds guarded package updates; it is not a stable-release candidate or evidence that all behavior gates pass.
+Updated: 2026-11-02 (Asia/Seoul). **Decision: HOLD.** Alpha releases ship through `next` with explicit limitations. Alpha.8 improves model selection and adds bounded two-host evidence; it is not a stable-release candidate or evidence that all behavior gates pass.
 
 Check a gate only when its stated evidence exists for the release candidate. Preserve failed attempts; a later successful run must not erase an earlier failure. README warnings alone do not close correctness or preservation blockers.
 
@@ -13,6 +13,8 @@ Check a gate only when its stated evidence exists for the release candidate. Pre
 - [x] Alpha.7 CLI messaging coverage: Node 61 tests and the tarball check distinguish install/update/no-op success from stderr failures, including mixed per-host results. Skill payload is unchanged from alpha.6; this does not close a host-behavior gate.
 - [x] R8 isolated real-project runs preserve the selected original files and produce byte/mtime-preserving fresh repeats in both hosts.
 - [x] Claude's remaining first-pass/cross-review failures are disclosed with the tested host/model/environment.
+- [x] Alpha.8 model-selection evidence: two independent eight-case proposals per host, then model-only application and a fresh same-request repeat. User-fixed models, Agent prose/metadata and BOM/CRLF are preserved; both repeats preserve observed file bytes/mtimes. Synthetic access/pricing/workload inputs do not establish actual access, performance or savings. Incomplete private JSON reports and earlier blocked attempts remain disclosed. See the [model-selection report](../evals/MODEL_SELECTION_BEHAVIOR.md).
+- [x] Alpha.8 local regression baseline: Node 63, Python 69, Skill structure checks and the 17-file offline artifact install/update/repeat test; unmodified alpha.6/7 upgrade fingerprints are covered. These are prior evidence, not final-RC or cross-platform host completion.
 
 These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT_BEHAVIOR.md) tests different role scopes in the two hosts; Codex's reviewer success does not establish execution-worker permission coverage.
 
@@ -30,6 +32,7 @@ These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT
 | Same-state fresh repeat | Adequate configuration unchanged in bytes and mtime; a real defect correction is reported as a correction, not a no-op |
 | Validation-only | Diagnostics without configuration edits, hook execution or MCP startup |
 | Unknown and verified target-model information | Preserve existing choice or use `inherit` when eligibility is unknown; autonomous task-fit choices within verified constraints; no Codex model IDs in Claude settings |
+| Broad model comparison and existing assignment reassessment | Consider eligible alternatives across families/versions; compare actual task requirements and expected total work; do not infer price from age/family; preserve separately fixed choices and avoid same-state model rotation |
 | English/Korean response and Agent conventions | Requested response language does not translate an existing Agent; explicit Agent translation is handled separately |
 | LF/CRLF/BOM and concurrent changes | Measured formatting preservation and no overwrite of concurrent work |
 
@@ -43,7 +46,7 @@ These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT
 
 ## 3. Verify preservation, failure handling and reporting
 
-- [ ] On the final RC, repeat the customized-Agent growth test with both hosts, preserving language, comments, extra fields, explicit model settings, encoding/BOM, line endings and final newline.
+- [ ] On the final RC, repeat the customized-Agent growth test with both hosts, preserving language, comments, extra fields, separately fixed model constraints, encoding/BOM, line endings and final newline. An ordinary existing model field may be minimally corrected with suitable eligible alternatives and supporting evidence.
 - [ ] Exercise an original changing after analysis and a failure during application in isolated fixtures. Confirm fresh reads, recalculated edits and conditional recovery that preserves another writer's changes. Installer rollback tests alone do not prove host editing behavior.
 - [ ] Exercise missing Python/PyYAML, denied access, malformed YAML and unavailable model information. Reports must distinguish attempted, blocked, failed, retried and completed checks without permission bypasses or global dependency installation.
 - [ ] Confirm tool-capability descriptions and byte-format claims match measured evidence. Keep task-authored candidates/backups/helpers within the permitted root and outside discovery paths.
@@ -59,6 +62,7 @@ These are prior evidence, not final-RC completion. [R8](../evals/RETRIEVAL_AUDIT
 - [ ] Pass all six static CI combinations on the exact RC commit: Ubuntu, Windows and macOS Intel with Python 3.10/3.13 and Node 22. These jobs do not prove host behavior on all three OSes.
 - [ ] Publish an RC only to `next`, verify tarball integrity and metadata, install that registry artifact in fresh temporary projects for both hosts, and confirm exact payload/no-change reinstall/conflict refusal.
 - [ ] Confirm Skill discovery and the supported behavior matrix from the **installed RC payload**, not merely the source checkout. Rerun affected checks after changes and explain any output-only fixes tested separately.
+- [ ] Rerun the model-selection cases on the installed RC, including the now self-contained apply/repeat JSON request. Retain exact inputs and distinguish mechanical report parsing from independently reviewed selection/preservation. Add non-secret real target-eligibility evidence for supported provider configurations; synthetic prices alone cannot support performance or savings claims.
 - [ ] Review an RC issue ledger with no unresolved correctness, preservation or security blockers in the supported scope. Close each item with evidence and a reviewer decision, not elapsed time or a higher version number.
 
 ## 6. Declare 1.0.0 only after the gates pass
