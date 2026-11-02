@@ -56,7 +56,7 @@ npx --yes @woody_s/configure-subagents@next install --agent codex
 npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is still an alpha, so the documented channel is `@next`. For a fixed RC version use `@1.0.0-rc.1`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is a prerelease, so the documented channel is `@next`. For a fixed RC version use `@1.0.0-rc.1`. npm's default version display follows `latest`, which may still point to an older alpha; `next` is the preview channel. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 
@@ -207,6 +207,10 @@ This limitation remains in alpha.6. The update command changes package installat
 In our Windows tests with Claude Code 2.1.302 and `claude-opus-5-5`, first-pass analysis and cross-review of exceptions spread across project documents remain unreliable. The R8 retrieval changes found the previously missed isolated-Mac verification exception before the first draft, but Claude still installed the Signal Flare configuration without the required second source comparison. A broad worker also retained a universal fix-to-green workflow despite reproduction/design-only assignments; a fresh no-edit repeat did not detect that conflict. Better retrieval is not a guarantee that every exception or review checkpoint is covered. This is a limitation observed in this host/model/scenario, not a claim about all Claude models or proof of a model-intrinsic cause.
 
 Review generated restrictions against the applicable base assignment, revisions and handoff/result evidence before relying on them for project work. Proposal mode can make that review easier. A static validator pass or an unchanged repeat does not establish semantic completeness; rerunning may uncover a real omission. See the [R8 evidence and current status](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RETRIEVAL_AUDIT_BEHAVIOR.md). Generated-Agent invocation and runtime enforcement remain separate, unverified checks.
+
+### Current RC evaluation
+
+The [installed-RC campaign](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RC1_BEHAVIOR.md) is incomplete. Codex completed its 11 planned sessions and all four fresh repeats preserved workspace bytes and mtimes. A real-project review nevertheless retained an overbroad fix-to-green sentence despite reproduction/design-only assignments; the no-change repeat did not identify that concern. Claude has completed its two proposals and a validation-only session, with native permission blocks recorded; its eight application/repeat sessions still require interactive evaluation. These observations do not establish semantic completeness or prove a model-intrinsic cause.
 
 ## Road to 1.0
 

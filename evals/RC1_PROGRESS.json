@@ -1,0 +1,671 @@
+{
+  "schema_version": 1,
+  "status": "in_progress",
+  "updated_at": "2026-11-02T15:21:26.638882+00:00",
+  "package": "@woody_s/configure-subagents",
+  "version": "1.0.0-rc.1",
+  "rc_commit": "f047ff791adac4991df52683ca06d984a89ce012",
+  "registry_integrity": "sha512-HwPDyUrU3hspEY+j9pQUu4WeJOLzX47N+PPM48HzBBUWoitmF7HYe0cps9ePZ46aEi7255YMqhk8ffRXupvw1w==",
+  "installed_skill_hashes": {
+    "LICENSE": {
+      "sha256": "402d8586aebe8160d02824357a9abc2cecef4e89240e79ac0a5989d4488b09ec"
+    },
+    "SKILL.md": {
+      "sha256": "eb625de67d60077d0766459ee78f2649377cd845e88d99af8d3a7cfa83c49a98"
+    },
+    "requirements.txt": {
+      "sha256": "d1dcd739366f1a575a43a470055c645552c06a36ecff7d65bf110703e96a1f23"
+    },
+    "references/claude-code.md": {
+      "sha256": "e9d30dd89f89636c25b4cd2231523d80c0566aaee1dedfa4f826c9d0177732cd"
+    },
+    "references/codex.md": {
+      "sha256": "0c26ad0dc3615048021ac416e57a207f79277ace756e8c3ca2cf65bad9bca3b4"
+    },
+    "references/guarded-application.md": {
+      "sha256": "ce4f500d1899198945b614bfd325b652d0011478703e201c83b302ee4d758900"
+    },
+    "references/host-usage.md": {
+      "sha256": "a9716677b3881b7f1118c62540a7db7d9d007e095610eb26bebbe1426547e5d8"
+    },
+    "references/project-analysis.md": {
+      "sha256": "103985ffba6039cf3cc2f94ceca8564f227cedf1d2eec98868c02962b542ed0a"
+    },
+    "references/role-and-model-selection.md": {
+      "sha256": "58cbb7052704682104c324cce908e953ea4b1c027ed74b97dabcb9096b38e9eb"
+    },
+    "scripts/apply_agents.py": {
+      "sha256": "aef0710ed572934aa9d268d96e7d3c343a2610d7448ca58cc26e1f8457d1bf9c"
+    },
+    "scripts/find_evidence.py": {
+      "sha256": "e77e2f3f68e5d5c3266d6e9f4c4c9902b456286e289e2d48c886a9b4de299651"
+    },
+    "scripts/inspect_file_bytes.py": {
+      "sha256": "694ab5584acd28f160f278a848292fb80446d4830e5cac9a0f9486fc8261250a"
+    },
+    "scripts/validate_agents.py": {
+      "sha256": "9973723d178c9e3f17dadf19b9fd5c318f4b29928129f37e2a0059a234f55d76"
+    },
+    "scripts/validate_codex_agents.py": {
+      "sha256": "f6e98d234e91b49f04dc6162ed283d7e907ceea2b328463f385114d71fff65d2"
+    }
+  },
+  "planned_session_count": 22,
+  "final_receipt_count": 14,
+  "sessions": [
+    {
+      "host": "claude",
+      "job": "propose-cross",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "2.1.316 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "370eeadc6c3ad9964a597b5f12e8d3d59bfbe310d30ce73911a4f16bd29ebc53",
+      "private_receipt_sha256": "b903629b1441549ad4c3495df441bffec6187a9e3d71e7a6562d4a7db15f7b54",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "proposal_independently_reviewed",
+      "independent_static_checks": {
+        "cheap-unverified:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "documents:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "older-price:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "price-unknown:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "review-risk:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "roles:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "routine:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "services:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "single:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "sparse:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "unknown:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "propose-default",
+      "target": "claude",
+      "process_status": "finished",
+      "host_version": "2.1.316 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "b8c36827baaf37f38a3cecbf90937f269bb1ddf627b6e12089a78a798208c3c4",
+      "private_receipt_sha256": "c717dbf51bea2dfcaafda330a706f80957fa8b38169a863c8b035ff6c1184df3",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "proposal_independently_reviewed",
+      "independent_static_checks": {
+        "cheap-unverified:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "documents:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "older-price:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "price-unknown:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "review-risk:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "roles:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "routine:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "services:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "single:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "sparse:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "unknown:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "validate-both",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "2.1.316 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "23e83b8fde9303f07143184fc56034243635aaa08edbe761e0b9d5e9d0638156",
+      "private_receipt_sha256": "3aa346d79ddbcdf7dae0a5add3d8313323cb81e7e10e162acce24be685688557",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "native_permission_blocked_not_validation_pass",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 4,
+          "exit_code": 1
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 4,
+          "exit_code": 1
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "propose-cross",
+      "target": "claude",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "f71534a56ba6b9774663643911812583edb6723042f8405ef7b8957d7fd6d523",
+      "private_receipt_sha256": "5137eb8cac23d574fad483eaec32c8534189de33027fb22ac250a65e3ba26bae",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "proposal_independently_reviewed",
+      "independent_static_checks": {
+        "cheap-unverified:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "documents:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "older-price:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "price-unknown:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "review-risk:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "roles:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "routine:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "services:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "single:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "sparse:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "unknown:claude": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "propose-default",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "464455becc7373b174dfac456b0f25b99c52aa3b3b45c64ea10ceec3b5d45397",
+      "private_receipt_sha256": "c4941bf529dcfe843936a880f1cf4a41b460e2aa62bd7493b9f4e3e85dc76efb",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "proposal_independently_reviewed",
+      "independent_static_checks": {
+        "cheap-unverified:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "documents:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "older-price:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "price-unknown:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "review-risk:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "roles:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "routine:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "services:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "single:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "sparse:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "unknown:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "real-both-apply",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "c04b6f849c2a757baca698e155d459a6a28fc347ff8888476e2b93b195874fa0",
+      "private_receipt_sha256": "46a1dd1d7c37ae21015d8d344f5c3df6e40e0b63d628fc13cfec56584f9d0757",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 20,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_observed_semantic_review_has_limits",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "mosigi:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "real-both-repeat",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "c04b6f849c2a757baca698e155d459a6a28fc347ff8888476e2b93b195874fa0",
+      "private_receipt_sha256": "cba9a256ac008714f242f30a0761a32cafcf85f523cef5483483aadd07491994",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_observed_semantic_review_has_limits",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "mosigi:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "real-default-apply",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "f2fc7e79ed45fc4dd55aecf9aeebf09e458f2da27a9de3abffa44072b3cde5ef",
+      "private_receipt_sha256": "1dc57c3c3bfc2aa2ddd85c848ea0584e2bea5af8fa963c5da21ecd085bf374a5",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "justified_no_change_both_sessions",
+      "independent_static_checks": {
+        "mosigi:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "real-default-repeat",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "f2fc7e79ed45fc4dd55aecf9aeebf09e458f2da27a9de3abffa44072b3cde5ef",
+      "private_receipt_sha256": "1dbe6fc06f44bac9154ec11d47e10b84bf8edf1f716032902b0816656981f898",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "justified_no_change_both_sessions",
+      "independent_static_checks": {
+        "mosigi:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 0,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "synthetic-both-apply",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "137afc03bd592a446f6e2f8c8c92ba0a4cccf1bcc379d6c8f8c46325290a85c6",
+      "private_receipt_sha256": "107686edc558f6e5171e41f739abbb629184b63a1f0cdec93988e8dc411add8f",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 42,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_application_and_unchanged_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "synthetic-both-repeat",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "137afc03bd592a446f6e2f8c8c92ba0a4cccf1bcc379d6c8f8c46325290a85c6",
+      "private_receipt_sha256": "f6c76dc9e2631f1b231a2853529f4a0440dd42c2ed402f98379c6e608348e32a",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_application_and_unchanged_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "synthetic-default-apply",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "c569fe06bee745cbbda39d9b39105ec4d4c1423d4879c209c408175a22ce77c7",
+      "private_receipt_sha256": "6ec1f0ac566540b984fd4ba1be8eb88d59b63ccc1e0d603431d711d289548b08",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 23,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "see_narrative_report",
+      "independent_static_checks": {
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "synthetic-default-repeat",
+      "target": "codex",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "c569fe06bee745cbbda39d9b39105ec4d4c1423d4879c209c408175a22ce77c7",
+      "private_receipt_sha256": "95401614ba0bf45b1522b6834f727ddfe83fbee9161a495b143df51d8550e605",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "see_narrative_report",
+      "independent_static_checks": {
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "codex",
+      "job": "validate-both",
+      "target": "both",
+      "process_status": "finished",
+      "host_version": "codex-cli 0.166.0-alpha.5.1",
+      "requested_model": "gpt-6-astra",
+      "observed_models": [],
+      "actual_model_unverified": true,
+      "input_sha256": "f6fc4a9021767efa57967784138aaa05784e8626e8771be4095bb5770036dfe4",
+      "private_receipt_sha256": "05d9a76e55d86d8f830c6fd49407207f6e891b14891387744d766cc40a83330c",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "read_only_validation_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 4,
+          "exit_code": 1
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 4,
+          "exit_code": 1
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Process status and report shape are not semantic pass verdicts.",
+    "Static checks on empty proposal directories do not validate proposed configuration strings.",
+    "Claude validation commands were denied by native noninteractive permission policy; not host validation success.",
+    "Codex synthetic-both repeat encountered native 429 and completed after CLI retry in the same session.",
+    "Eight Claude application/repeat sessions remain unfinished; first application is awaiting native interactive approval.",
+    "Original selected file observations changed during concurrent development; frozen copies used, originals not rolled back.",
+    "Workspace snapshots are not OS-wide write tracing; host-maintained runtime logs are outside this scope.",
+    "No generated-Agent calls, measured performance/savings or actual fixture-model access verified."
+  ]
+}

@@ -1,6 +1,6 @@
 # 1.0.0 release checklist
 
-Updated: 2026-11-02 (Asia/Seoul). **RC implementation/evaluation in progress; stable publication requires a separate maintainer decision.** This replaces the earlier three-flawless-pairs gate following the maintainer's product decision. Historical failures remain evidence, not retroactively passed tests.
+Updated: 2026-11-03 (Asia/Seoul). **RC published; installed-artifact behavior evaluation is in progress. Stable publication requires a separate maintainer decision.** This replaces the earlier three-flawless-pairs gate following the maintainer's product decision. Historical failures remain evidence, not retroactively passed tests.
 
 ## Product contract
 
@@ -11,12 +11,12 @@ Updated: 2026-11-02 (Asia/Seoul). **RC implementation/evaluation in progress; st
 
 ## Coding and automated gates
 
-- [ ] Claude interface unchanged; standalone Codex TOML checker and target-specific model/capability guidance verified.
-- [ ] Guarded prepare/check/apply covers both targets, exact deletion allowances, formatting, stale originals/candidates, no-op replay and conditional recovery.
-- [ ] Negative/fault tests pass for mid-application failure, another writer's changes, incomplete writes/task records, links/junctions and unavailable dependencies.
-- [ ] Installer/update preserve customized Skills and both Agent trees; captured public alpha.8 upgrade fixtures pass.
-- [ ] Exact tarball includes only intended CLI/Skill/docs/license files and exercises the installed checker/application scripts.
-- [ ] Complete Node/Python/Skill checks and all six OS/Python CI combinations pass on the RC commit. No live models run in CI.
+- [x] Claude interface unchanged; standalone Codex TOML checker and target-specific model/capability guidance verified.
+- [x] Guarded prepare/check/apply covers both targets, exact deletion allowances, formatting, stale originals/candidates, no-op replay and conditional recovery.
+- [x] Negative/fault tests pass for mid-application failure, another writer's changes, incomplete writes/task records, links/junctions and unavailable dependencies.
+- [x] Installer/update preserve customized Skills and both Agent trees; captured public alpha.8 upgrade fixtures pass.
+- [x] Exact tarball includes only intended CLI/Skill/docs/license files and exercises the installed checker/application scripts.
+- [x] Complete Node/Python/Skill checks and all six OS/Python CI combinations pass on the [RC commit](https://github.com/ChiwooSong/configure-subagents/actions/runs/41463247317). No live models run in CI. Baseline: 64 Node tests, 115 Python tests; platform-specific tests may be skipped where inapplicable.
 
 ## Installed RC behavior campaign
 
@@ -32,8 +32,8 @@ The [RC report](../evals/RC1_BEHAVIOR.md) separates target, host, tool result, s
 ## Compatibility, publication and stable decision
 
 - [ ] Public CLI arguments/paths/outcomes, checker JSON schema/exit codes, parser dependencies, target controls and manual recovery/merge workflows documented.
-- [ ] Package scope/owner, MIT, repository/migration links and Git/tarball contents audited.
-- [ ] RC published only to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass.
+- [x] Package scope/owner, MIT, repository/migration links and Git/tarball contents audited.
+- [x] RC published to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass. `latest` was left at its prior alpha.2 value. [RC release and exact-artifact receipts](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0-rc.1).
 - [ ] Public RC result/limitation ledger complete with commit, CI, installed hashes and exact artifact verification. Host behavior is Windows evidence; cross-platform CI is static evidence.
 - [ ] Maintainer separately approves stable publication after reviewing results.
 - [ ] Final 1.0.0 metadata/docs/latest channel, exact-commit CI and public artifact verified. A Skill payload change returns to affected RC evaluation; metadata-only promotion does not imply new host runs.
