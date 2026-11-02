@@ -101,11 +101,11 @@ def facts_directory(path):
 
 def project_root(value):
     path = Path(os.path.abspath(value))
-    real = Path(os.path.realpath(path))
-    if os.path.normcase(str(real)) != os.path.normcase(str(path)):
-        raise Rejected("Use a project root without linked path components")
-    facts_directory(path)
-    return path
+    # Windows 8.3 spellings can differ from GetFinalPathName without being
+    # links. Inspect actual components, then use the canonical spelling.
+    for component in (path, *path.parents):
+        facts_directory(component)
+    return Path(os.path.realpath(path))
 
 
 def safe_relative(value):

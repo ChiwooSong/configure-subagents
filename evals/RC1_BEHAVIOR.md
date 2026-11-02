@@ -2,7 +2,7 @@
 
 Status: **not started** as of 2026-11-02 (Asia/Seoul). Implementation and automated testing precede RC publication. No current-RC authenticated host pass or generated-Agent invocation is claimed.
 
-Prepublication local baseline: **64 Node tests, 114 Python tests**, Skill structure and skill-creator checks, and the **21-file tarball** install/update/guarded-application/replay smoke pass. This is not cross-platform CI or authenticated host evidence. Independent bounded review reproduced and closed a checked-digest substitution issue and source-screening/repeat-input harness issues; retained reproductions remain in ignored QA storage. Existing failures were not relabeled as passes.
+Prepublication local baseline: **64 Node tests, 115 Python tests**, Skill structure and skill-creator checks, and the **21-file tarball** install/update/guarded-application/replay smoke pass. This is not cross-platform CI or authenticated host evidence. Independent bounded review reproduced and closed a checked-digest substitution issue and source-screening/repeat-input harness issues; retained reproductions remain in ignored QA storage. Existing failures were not relabeled as passes. The first CI run passed Linux/macOS but rejected legitimate Windows 8.3 temporary paths in artifact preparation; actual component checks replaced spelling comparison, with a Windows short-path regression. The failed [initial CI run](https://github.com/ChiwooSong/configure-subagents/actions/runs/41462355740) remains recorded; its source/tarball was not published to npm.
 
 ## Method
 

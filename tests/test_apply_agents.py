@@ -343,6 +343,19 @@ class ApplyTests(unittest.TestCase):
         self.assertEqual(p.returncode,1)
         self.assertEqual(json.loads(p.stdout)["status"],"rejected")
 
+    @unittest.skipUnless(os.name=='nt','Windows short-path normalization')
+    def test_windows_short_spelling_is_not_a_link(self):
+        import ctypes
+        api=ctypes.windll.kernel32.GetShortPathNameW
+        buffer=ctypes.create_unicode_buffer(32768)
+        size=api(str(self.root),buffer,len(buffer))
+        if not size or not buffer.value or buffer.value.lower()==str(self.root).lower():
+            self.skipTest('8.3 name not available for fixture')
+        root=guard.project_root(buffer.value)
+        self.assertEqual(root,self.root)
+        prepared=guard.prepare(root,'both')
+        self.assertEqual(prepared['status'],'prepared')
+
 
 if __name__ == "__main__":
     unittest.main()
