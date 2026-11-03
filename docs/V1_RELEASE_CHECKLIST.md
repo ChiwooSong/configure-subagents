@@ -38,16 +38,16 @@ The [RC report](../evals/RC1_BEHAVIOR.md) separates target, host, tool result, s
 - [x] RC published to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass. On November 3, `latest` moved from alpha.2 to alpha.8 at the maintainer's request; `next` remains rc.1. The alpha tag is not stable approval. [RC release and exact-artifact receipts](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0-rc.1).
 - [x] Public RC result/limitation ledger includes all 22 outcomes, native evidence gaps, source/CI links, installed hashes and exact artifact verification. Host behavior is Windows evidence; cross-platform CI is static evidence.
 - [x] Maintainer separately approved GitHub and npm latest publication of 1.0.0 after reviewing results, accepting documented limits and skipping rc.2.
-- [ ] Final 1.0.0 metadata/docs/latest channel, exact-commit CI and public artifact verified. A Skill payload change returns to affected RC evaluation; metadata-only promotion does not imply new host runs.
+- [x] Final 1.0.0 metadata/docs/latest channel, exact-commit CI and public artifact verified. [Stable verification](V1_STABLE_VERIFICATION.md) records the source, six CI jobs, registry integrity and public assets. All 14 Skill files remain unchanged; no new host runs were implied or performed.
 
 Prior baselines: [alpha.8 model selection](../evals/MODEL_SELECTION_BEHAVIOR.md), [R8 source retrieval](../evals/RETRIEVAL_AUDIT_BEHAVIOR.md), [updates](../evals/UPDATE_COMMAND.md). They do not substitute for the installed RC campaign.
 
-## Whether to create rc.2
+## RC2 decision (resolved)
 
-An rc.2 is needed when a new distributable change warrants another candidate, not merely because rc.1 evaluation ended. No release-blocking shipped file-tool defect was observed in this bounded campaign. The module-capture correction changes development QA, not the 14 installed Skill files.
+The maintainer skipped rc.2 and stable 1.0.0 is published. An rc.2 would have been needed for a new distributable change warranting another candidate, not merely because rc.1 evaluation ended. No release-blocking shipped file-tool defect was observed in this bounded campaign. The module-capture correction changes development QA, not the 14 installed Skill files. The earlier decision criteria remain below for traceability.
 
 1. Close and publish the result/limitation ledger, distinguish model judgment limits from reproducible tool defects, and decide what concrete payload change (if any) is needed. Keep the documented incomplete-input and native-exit scopes visible.
 2. If changing the Skill, add verified pristine rc.1 upgrade fingerprints, keep customization/Agent preservation, run all automatic/CI/tarball gates, and evaluate the affected behavior using the new installed candidate. Do not inherit old behavior results for changed Skill bytes or require flawless AI semantics. No further model calls are authorized by this checklist alone.
 3. Publish a changed candidate as rc.2 to `next`, verify registry/artifact installation and disclose its evidence. If shipping payload changes are unnecessary, the maintainer may instead review rc.1 for stable promotion while explicitly accepting unverified scopes; rc.2 is not a mandatory milestone.
 
-Stable readiness depends on accepted evidence and final checks, not a fixed waiting period or a required number of RCs. The maintainer chose metadata/documentation-only promotion from rc.1 on November 3. Stable metadata, final exact-commit CI and tarball/registry verification remain required; publication receipts are attached to the [1.0.0 release](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0).
+Stable readiness depends on accepted evidence and final checks, not a fixed waiting period or a required number of RCs. The maintainer chose metadata/documentation-only promotion from rc.1 on November 3. Stable metadata, final exact-commit CI and tarball/registry verification are complete; publication receipts are attached to the [1.0.0 release](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0).
