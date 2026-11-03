@@ -104,6 +104,31 @@ class ReleaseEvaluationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'snapshot changed'):
             evaluation.prepare_session(self.output,'codex','real-default-apply',ROOT/'configure-subagents')
 
+    def test_capture_includes_module_sources_without_weakening_secret_filters(self):
+        sources = []
+        for name in ['signal_flare', 'mosigi']:
+            source = self.output / name
+            (source / 'scripts').mkdir(parents=True)
+            (source / 'node_modules').mkdir()
+            (source / 'runtime').mkdir()
+            for filename in ['test-emu.mjs', 'runner.cjs', 'checks.mts', 'schema.cts']:
+                (source / 'scripts' / filename).write_text('export const fixture = true;\n')
+            (source / 'scripts/service-account.mjs').write_text('fixture credential\n')
+            (source / 'scripts/key-material.mjs').write_text('-----BEGIN OPENSSH PRIVATE KEY-----\nfixture\n-----END OPENSSH PRIVATE KEY-----\n')
+            (source / 'node_modules/dependency.mjs').write_text('fixture dependency\n')
+            (source / 'runtime/session.mjs').write_text('fixture runtime\n')
+            sources.append((name, str(source)))
+        before = {n: evaluation.base.hashes(Path(p), True) for n, p in sources}
+        evaluation.capture(self.output, sources)
+        for name, source in sources:
+            self.assertEqual(before[name], evaluation.base.hashes(Path(source), True))
+            self.assertEqual(set(evaluation.base.hashes(self.output / 'sources' / name)), {
+                'scripts/test-emu.mjs', 'scripts/runner.cjs', 'scripts/checks.mts', 'scripts/schema.cts'
+            })
+            record = json.loads((self.output / 'sources.json').read_text())[name]
+            self.assertNotIn('scripts/test-emu.mjs', record['excluded'])
+            self.assertIn('scripts/key-material.mjs', record['excluded'])
+
     def test_capture_cannot_substitute_unscanned_source_bytes(self):
         sources=[]
         for name in ['signal_flare','mosigi']:

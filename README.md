@@ -210,7 +210,7 @@ Review generated restrictions against the applicable base assignment, revisions 
 
 ### Current RC evaluation
 
-The [installed-RC campaign](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RC1_BEHAVIOR.md) is incomplete. Codex completed its 11 planned sessions and all four fresh repeats preserved workspace bytes and mtimes. A real-project review nevertheless retained an overbroad fix-to-green sentence despite reproduction/design-only assignments; the no-change repeat did not identify that concern. Claude has completed its two proposals and a validation-only session, with native permission blocks recorded; its eight application/repeat sessions still require interactive evaluation. These observations do not establish semantic completeness or prove a model-intrinsic cause.
+The [installed-RC campaign](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RC1_BEHAVIOR.md) is incomplete. Both hosts completed default/both-target synthetic application and fresh repeats with observed file bytes and mtimes unchanged. Codex completed its original 11 sessions; Claude has eight final receipts, with native validation permission blocks recorded. Some real-project output retains overbroad workflow or memory-threshold wording despite task-specific conditions. The real-project capture also omitted module sources such as `.mjs` wrappers because of a harness allowlist bug. The harness is fixed and regression-tested; existing outcomes remain retained as partial-input evidence pending a corrected-cohort evaluation decision. Missing input must not be blamed on a host or described as missing original source. These observations do not establish semantic completeness or prove a model-intrinsic cause.
 
 ## Road to 1.0
 

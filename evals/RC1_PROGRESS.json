@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "in_progress",
-  "updated_at": "2026-11-02T15:21:26.638882+00:00",
+  "status": "in_progress_real_capture_coverage_gap",
+  "updated_at": "2026-11-03T02:05:19.921634+00:00",
   "package": "@woody_s/configure-subagents",
   "version": "1.0.0-rc.1",
   "rc_commit": "f047ff791adac4991df52683ca06d984a89ce012",
@@ -51,13 +51,14 @@
     }
   },
   "planned_session_count": 22,
-  "final_receipt_count": 14,
+  "final_receipt_count": 19,
   "sessions": [
     {
       "host": "claude",
       "job": "propose-cross",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "2.1.316 (Claude Code)",
       "requested_model": "claude-opus-5-5",
       "observed_models": [
@@ -125,6 +126,7 @@
       "job": "propose-default",
       "target": "claude",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "2.1.316 (Claude Code)",
       "requested_model": "claude-opus-5-5",
       "observed_models": [
@@ -189,9 +191,186 @@
     },
     {
       "host": "claude",
+      "job": "real-default-apply",
+      "target": "claude",
+      "process_status": "finished",
+      "capture_scope": "module_source_omission",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "013439faf75936b0ea0f0db6e27d0da42e9b299d978596bc3d0d251da50ec875",
+      "private_receipt_sha256": "e0484830c5a66fb6cb49bfb085ea176c1a4b966feba27b9f48d584402e2ccc57",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 16,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_with_incomplete_capture_and_semantic_scope_concern",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "synthetic-both-apply",
+      "target": "both",
+      "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "ea481df30f151d9b5b9a6c1bff60c00193e228448a842dfcabb7bedefd8dab86",
+      "private_receipt_sha256": "e95fef3309cecf6e1b25443f6fc744ba81906e996da17ff03144d44cb21e4df6",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 42,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_both_target_apply_and_unchanged_fresh_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "synthetic-both-repeat",
+      "target": "both",
+      "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "ea481df30f151d9b5b9a6c1bff60c00193e228448a842dfcabb7bedefd8dab86",
+      "private_receipt_sha256": "aea21633adf8b86b3d540dfaf9c695c126f50debe6e4a0f32dc53852bbbd396f",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_both_target_apply_and_unchanged_fresh_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "growth:codex": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "synthetic-default-apply",
+      "target": "claude",
+      "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
+      "host_version": "2.1.316 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "adff93b3ac2334a0716e96ffc97ab68ed69c80e5e82558009835d0423be8c74b",
+      "private_receipt_sha256": "a682b53becd57e4d925e72424b26fdd1e1ec1b7b2b0f3b6d83108e213d7c4934",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 23,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_and_unchanged_fresh_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "synthetic-default-repeat",
+      "target": "claude",
+      "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
+      "host_version": "2.1.316 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "adff93b3ac2334a0716e96ffc97ab68ed69c80e5e82558009835d0423be8c74b",
+      "private_receipt_sha256": "42fad2f7d9e00ad83d7393f4f0564779093d9fd46315230cc2abd29657cdd52a",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_and_unchanged_fresh_repeat_observed",
+      "independent_static_checks": {
+        "growth:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "korean:claude": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
       "job": "validate-both",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "2.1.316 (Claude Code)",
       "requested_model": "claude-opus-5-5",
       "observed_models": [
@@ -231,6 +410,7 @@
       "job": "propose-cross",
       "target": "claude",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -296,6 +476,7 @@
       "job": "propose-default",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -361,6 +542,7 @@
       "job": "real-both-apply",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "module_source_omission",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -398,6 +580,7 @@
       "job": "real-both-repeat",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "module_source_omission",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -435,6 +618,7 @@
       "job": "real-default-apply",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "module_source_omission",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -464,6 +648,7 @@
       "job": "real-default-repeat",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "module_source_omission",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -493,6 +678,7 @@
       "job": "synthetic-both-apply",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -530,6 +716,7 @@
       "job": "synthetic-both-repeat",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -567,6 +754,7 @@
       "job": "synthetic-default-apply",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -596,6 +784,7 @@
       "job": "synthetic-default-repeat",
       "target": "codex",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -625,6 +814,7 @@
       "job": "validate-both",
       "target": "both",
       "process_status": "finished",
+      "capture_scope": "synthetic_fixture",
       "host_version": "codex-cli 0.166.0-alpha.5.1",
       "requested_model": "gpt-6-astra",
       "observed_models": [],
@@ -662,10 +852,20 @@
     "Process status and report shape are not semantic pass verdicts.",
     "Static checks on empty proposal directories do not validate proposed configuration strings.",
     "Claude validation commands were denied by native noninteractive permission policy; not host validation success.",
+    "Initial real-project capture omitted .mjs/.cjs/.mts/.cts sources. Five retained real-session outcomes have incomplete source context, not absent original scripts.",
+    "Corrected module-inclusive capture prepared; replacing the real cohort with eight fresh sessions is awaiting user scope decision.",
     "Codex synthetic-both repeat encountered native 429 and completed after CLI retry in the same session.",
-    "Eight Claude application/repeat sessions remain unfinished; first application is awaiting native interactive approval.",
+    "3 planned sessions lack final receipts; native interactive approvals/exits may be required.",
     "Original selected file observations changed during concurrent development; frozen copies used, originals not rolled back.",
-    "Workspace snapshots are not OS-wide write tracing; host-maintained runtime logs are outside this scope.",
+    "Workspace snapshots are not OS-wide write tracing.",
     "No generated-Agent calls, measured performance/savings or actual fixture-model access verified."
-  ]
+  ],
+  "snapshot_scope": {
+    "included": "Observed non-Git workspace files, including candidates/backups/journals",
+    "excluded": [
+      ".git",
+      "__pycache__",
+      "host-maintained runtime storage outside evaluation workspace"
+    ]
+  }
 }

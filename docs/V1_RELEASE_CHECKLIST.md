@@ -24,7 +24,8 @@ The [RC report](../evals/RC1_BEHAVIOR.md) separates target, host, tool result, s
 
 - [ ] Each host: two fresh proposals (default/cross target), two synthetic apply/repeat pairs (default/both), two real-project apply/repeat pairs (default/both), one validation-only session (both).
 - [ ] Inputs and installed Skill bytes frozen; host versions, requested/observed models, commands, identities/bytes/mtimes, failures and approvals recorded.
-- [ ] Default target and cross-target protected application success plus a same-state no-change repeat observed in each host. Authentication/permission blocks are not passes.
+- [x] Default target and cross-target protected application success plus a same-state no-change repeat observed in each host's synthetic pairs. Authentication/permission blocks are not passes; this does not close real-project coverage.
+- [ ] Real-project source capture includes relevant module wrappers and supporting source. Initial inputs omitted `.mjs`/`.mts`; harness fixed with 116 passing Python tests, corrected cohort decision/evaluation still pending. Retain old outcomes as partial-input evidence.
 - [ ] Both real-project sources preserved; ignored evaluation copies exclude secrets, runtime data and dependencies. External source changes are reported without rollback.
 - [ ] All 22 outcomes retained and classified: tool defect, model/host judgment limit, permission/authentication block or harness defect. No rerun-until-green policy.
 - [ ] Known R8 first-pass/cross-review failures remain disclosed; no intrinsic-model-cause claim, runtime-use claim or cost-saving claim is inferred.

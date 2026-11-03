@@ -27,7 +27,7 @@ SKIP_DIRS = {".git", "node_modules", ".venv", "venv", "build", "dist", ".dart_to
              ".next", ".nuxt", "coverage", ".cache", ".eval-runs", ".release", "logs", ".firebase", ".idea", ".vscode",
              ".ssh", ".aws", ".azure", ".gcloud", ".secrets", ".credentials",
              ".configure-subagents-work", ".configure-subagents-updates", "__pycache__"}
-EXTENSIONS = {".md", ".txt", ".json", ".yaml", ".yml", ".toml", ".py", ".js", ".jsx", ".ts", ".tsx",
+EXTENSIONS = {".md", ".txt", ".json", ".yaml", ".yml", ".toml", ".py", ".js", ".jsx", ".mjs", ".cjs", ".ts", ".tsx", ".mts", ".cts",
               ".dart", ".swift", ".kt", ".kts", ".java", ".c", ".h", ".cpp", ".gradle", ".xml", ".plist",
               ".sh", ".ps1", ".html", ".css", ".sql", ".rules", ".lock", ".rst"}
 SKIP_NAMES = {".npmrc", "settings.json", "settings.local.json", "google-services.json",
