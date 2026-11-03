@@ -1,6 +1,6 @@
 {
   "name": "@woody_s/configure-subagents",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0",
   "description": "A project-aware Skill for designing, validating and safely applying Claude Code and Codex agent configurations.",
   "type": "module",
   "bin": {
@@ -28,7 +28,7 @@
   ],
   "publishConfig": {
     "access": "public",
-    "tag": "next",
+    "tag": "latest",
     "registry": "https://registry.npmjs.org/"
   },
   "files": [

@@ -84,3 +84,5 @@ The second command prepares and prints a request without a model call. Add `--ru
 ## Limits and decision
 
 Prior [alpha.8 evidence](MODEL_SELECTION_BEHAVIOR.md) and [R8 failures](RETRIEVAL_AUDIT_BEHAVIOR.md) remain separate historical observations. Final publication requires the [release checklist](../docs/V1_RELEASE_CHECKLIST.md) and a separate maintainer decision. Actual generated-Agent discovery/invocation, measured performance/savings and untested OS/model/provider combinations remain outside this campaign.
+
+**Subsequent stable decision, November 3, 2026:** the maintainer explicitly accepted the documented unverified scopes and model/host limitations, approved 1.0.0 publication to GitHub/npm latest, and chose to skip rc.2. Stable promotion retains all 14 evaluated Skill files unchanged; it does not change the RC observations, supply missing source-context/exit evidence, or turn blocked checks into passes. The [stable release notes](../releases/v1.0.0.md) carry the limitations and final artifact/CI verification contract.

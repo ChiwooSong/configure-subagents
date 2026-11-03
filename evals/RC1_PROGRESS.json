@@ -989,5 +989,21 @@
   "distribution_tags_observed": {
     "latest": "0.1.0-alpha.8",
     "next": "1.0.0-rc.1"
+  },
+  "subsequent_stable_decision": {
+    "date": "2026-11-03",
+    "timezone": "Asia/Seoul",
+    "version": "1.0.0",
+    "approved_by_maintainer": true,
+    "skip_rc2": true,
+    "evaluated_skill_payload_unchanged": true,
+    "accepted_unverified_scopes": [
+      "module-inclusive real-project host behavior",
+      "Claude validation-only commands blocked by permissions",
+      "last native exit receipt and persisted start/end binding",
+      "generated-Agent invocation and runtime enforcement",
+      "measured performance/cost and broad model/language/OS coverage"
+    ],
+    "retained_semantic_failures_are_not_passes": true
   }
 }

@@ -4,7 +4,7 @@ A project-aware Skill for designing and improving **Claude Code and Codex agents
 
 The host AI reads your project, decides whether separate agents are useful, and proposes roles, models, tools, and handoffs. It can also update existing project agents while preserving unrelated instructions and metadata. A small Python checker validates the generated files without executing them.
 
-**1.0.0 release candidate — stable publication requires a separate maintainer decision.** This is a reviewable configuration tool, not a guarantee of perfect AI analysis. File-tool correctness is a release gate; observed model omissions and review failures are disclosed with severity and conditions. The [earlier behavior limitation](#known-behavior-limitation-in-alpha5) remains recorded. Cross-platform static checks, authenticated host behavior and generated-Agent execution are separate evidence.
+**1.0.0 — first stable release, with documented evaluation limits.** This is a reviewable configuration tool, not a guarantee of perfect AI analysis. The maintainer accepted the documented unverified scopes and model/host limitations on November 3, 2026. The 14-file installed Skill payload is unchanged from the evaluated `1.0.0-rc.1`; stable promotion changes package metadata and public documentation. File-tool correctness remains a release gate. The [earlier behavior limitation](#known-behavior-limitation-in-alpha5) remains recorded. Cross-platform static checks, authenticated host behavior and generated-Agent execution are separate evidence.
 
 ## What it does
 
@@ -17,7 +17,7 @@ The host AI reads your project, decides whether separate agents are useful, and 
 
 It does not orchestrate project work, call generated Agents by default, edit global settings, or grant system permissions. Codex custom agents inherit parent permissions/provider/MCP; their TOML does not create an independent sandbox.
 
-## 1.0.0-rc.1: dual targets and guarded application
+## 1.0.0: dual targets and guarded application
 
 | Execution host | Default configuration target | Explicit targets |
 |---|---|---|
@@ -38,32 +38,32 @@ The Skill builds a target-model pool before assigning roles, separating eligible
 
 Ordinary improvement requests also reassess existing model fields. A justified model-only correction can preserve all other instructions, while separately stated fixed-model choices and ceilings remain binding. Unknown price alone does not require inheritance; unknown eligibility retains an existing choice, uses `inherit` for new Claude Agents or omits model/effort for new Codex Agents. Conditional alternatives stay outside runnable fields. No automatic routing, retries or model-access probes are added.
 
-Alpha.8 includes these instructions and verified upgrade fingerprints for unmodified alpha.6/7 installations. Both hosts completed two fresh synthetic proposals and an application/fresh-repeat pair; model-only edits and no-change repeats were independently checked. See [selection guidance](configure-subagents/references/role-and-model-selection.md), the [bounded evaluation](evals/MODEL_SELECTION_BEHAVIOR.md) and [alpha.8 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.8/releases/v0.1.0-alpha.8.md). This does not establish actual performance or cost savings, and the earlier first-pass exception/cross-review limitations remain open. **1.0.0 stays on hold.**
+Alpha.8 includes these instructions and verified upgrade fingerprints for unmodified alpha.6/7 installations. Both hosts completed two fresh synthetic proposals and an application/fresh-repeat pair; model-only edits and no-change repeats were independently checked. See [selection guidance](configure-subagents/references/role-and-model-selection.md), the [bounded evaluation](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/MODEL_SELECTION_BEHAVIOR.md) and [alpha.8 release notes](https://github.com/ChiwooSong/configure-subagents/blob/v0.1.0-alpha.8/releases/v0.1.0-alpha.8.md). This does not establish actual performance or cost savings. Stable 1.0.0 retains and discloses the earlier first-pass exception/cross-review limitations.
 
 ## Installation
 
 Requires Node.js 22 or newer. Install for both supported tools, using the same scoped-package and `--agent all` convention as HTMLEdit:
 
 ```sh
-npx --yes @woody_s/configure-subagents@next install --agent all
+npx --yes @woody_s/configure-subagents@latest install --agent all
 ```
 
 Choose one tool or another project:
 
 ```sh
-npx --yes @woody_s/configure-subagents@next install --agent claude
-npx --yes @woody_s/configure-subagents@next install --agent codex
-npx --yes @woody_s/configure-subagents@next install --agent all --project ./my-project
+npx --yes @woody_s/configure-subagents@latest install --agent claude
+npx --yes @woody_s/configure-subagents@latest install --agent codex
+npx --yes @woody_s/configure-subagents@latest install --agent all --project ./my-project
 ```
 
-The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. This is a prerelease, so the documented channel is `@next`. For a fixed RC version use `@1.0.0-rc.1`. As of November 3, 2026, `latest` points to `0.1.0-alpha.8` and `next` to `1.0.0-rc.1`. The alpha remains a prerelease and supports Claude Agent configuration only; use the RC for both configuration targets. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
+The npm package is [@woody_s/configure-subagents](https://www.npmjs.com/package/@woody_s/configure-subagents), owned by `woody_s`; the source repository remains `ChiwooSong/configure-subagents`. Use `@latest` for stable 1.0.0 or pin `@1.0.0` for reproducibility. The separate `@next` channel still identifies the historical `1.0.0-rc.1`; it is not the stable installation command. Earlier alpha releases configure Claude Agents only; stable 1.0.0 supports both configuration targets. `--yes` skips npm's download confirmation; it does not authorize the Skill to change project agents. If the expected version is unavailable or ownership differs, stop instead of substituting another package.
 
 The installer copies the Skill only. It does not invoke models, generate agents, install Python dependencies, or change global settings. One of `--agent` or `--host` is required; `--project` defaults to the current directory. Identical installations succeed unchanged; different contents are reported as conflicts without overwriting. `--help`, `--version`, and no arguments only display information.
 
 Already installed? Use **`update`**, not `install`:
 
 ```sh
-npx --yes @woody_s/configure-subagents@next update --agent all
+npx --yes @woody_s/configure-subagents@latest update --agent all
 ```
 
 `--version` reports the downloaded CLI's version, not the version of a previously copied project Skill. Read the update result for each selected host.
@@ -104,16 +104,18 @@ If you customized an installed Skill, the installer stops with a conflict. Keep 
 Run the new CLI in your project, or supply `--project`:
 
 ```sh
-npx --yes @woody_s/configure-subagents@next update --agent all --project ./my-project
+npx --yes @woody_s/configure-subagents@latest update --agent all --project ./my-project
 ```
 
 Use `--agent claude` or `--agent codex` if only that host is installed. `--host claude|codex|both` remains compatible. All selected hosts must already have a Skill; a missing host stops the update and directs you to `install`.
 
-- **Unmodified known release:** the entire Skill tree matches bundled SHA-256 fingerprints for published alpha.1 (unscoped), alpha.2, alpha.4 or alpha.5. It is upgraded to the CLI's bundled Skill. No registry access or project code execution occurs inside `update`.
+- **Unmodified known release:** the entire Skill tree matches bundled SHA-256 fingerprints for published alpha.1 (unscoped), alpha.2 or alpha.4 through alpha.8. It is upgraded to the CLI's bundled Skill. No registry access or project code execution occurs inside `update`.
 - **Already current:** reports `unchanged`, preserving bytes and modification times without creating backups.
 - **Customized, incomplete or unknown:** reports differing paths and stops before changing either host. Edits, additions, deletions, extra directories and line-ending changes all count. It does not guess ownership from a version marker, normalize files, merge automatically or force-overwrite. A later unrecognized release is also refused rather than downgraded.
 
 Both hosts are checked before applying anything. Successful updates report `updated` and the original backup path under `.configure-subagents-updates/<transaction>/backups/<host>/`. This project-local directory is outside both Skill discovery paths. Backups retain original bytes and modification times; keep them until you have checked the update, then remove only the transaction folders you no longer need. Consider ignoring this folder in your project's Git configuration; the CLI does not edit `.gitignore`.
+
+An unmodified `1.0.0-rc.1` installation already has the same 14 Skill files as stable 1.0.0. Running the stable `update` command therefore reports a successful no-op and preserves modification times. The downloaded CLI reports version 1.0.0; a no-op does not mean the upgrade command failed. User-customized Skills still require deliberate manual merging.
 
 Updates stage the complete replacement before moving an original to its backup. If a handled failure occurs, originals are restored when the destination still belongs to this operation. Concurrent changes are never deliberately overwritten; retained backups/recovery paths are reported for manual inspection. A process termination or power loss can interrupt the moves: this is not a crash-atomic, two-host transaction. Inspect the reported storage directory and restore the appropriate backup only after checking the live destination. Symbolic links/junctions in destination paths are refused. These checks are not isolation from a hostile concurrent filesystem writer.
 
@@ -208,15 +210,27 @@ In our Windows tests with Claude Code 2.1.302 and `claude-opus-5-5`, first-pass 
 
 Review generated restrictions against the applicable base assignment, revisions and handoff/result evidence before relying on them for project work. Proposal mode can make that review easier. A static validator pass or an unchanged repeat does not establish semantic completeness; rerunning may uncover a real omission. See the [R8 evidence and current status](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RETRIEVAL_AUDIT_BEHAVIOR.md). Generated-Agent invocation and runtime enforcement remain separate, unverified checks.
 
-### Current RC evaluation
+### RC evidence accepted for stable 1.0.0
 
 The [installed-RC campaign](https://github.com/ChiwooSong/configure-subagents/blob/main/evals/RC1_BEHAVIOR.md) records the original 22 outcomes: Codex has 11 native final receipts, Claude has ten plus one reconciled final-report observation. Seven fresh repeats have matching requests/start snapshots and unchanged observed bytes/mtimes, including transaction records. The last Claude real-both repeat's report and current matching apply-output bytes/mtimes were independently observed, but its window disappeared without a native exit receipt; its return code and separately persisted start/end binding remain unverified. Claude validation-only commands were permission-blocked and are not passes. Some real-project output retains overbroad workflow or memory-threshold wording despite task-specific conditions. All eight real-project outcomes used inputs omitting module sources such as `.mjs` wrappers because of a harness allowlist bug. The harness is fixed and regression-tested; the maintainer chose no additional model sessions, so module-inclusive real-project behavior remains unverified. Missing input must not be blamed on a host or described as missing original source. No release-blocking file-tool defect was observed within the tested scope. These observations do not establish semantic completeness or prove a model-intrinsic cause.
 
-## Road to 1.0
+### Accepted unverified scopes and model limitations
+
+On November 3, 2026, the maintainer explicitly accepted these limits for stable publication, without treating them as passed tests:
+
+- Module-inclusive real-project behavior remains unverified. The original eight real outcomes used incomplete frozen source captures; the harness fix and its tests do not supply missing host behavior evidence.
+- Claude validation-only helper execution was permission-blocked. Manual findings and independent checks do not establish that the host ran those commands.
+- The last Claude real-both repeat has an observed final report and current matching file bytes/mtimes, but no recovered native exit code or independently persisted start/end binding.
+- First-pass exception discovery and cross-review may miss conditions or preserve overbroad workflow/resource rules. Seven unchanged native repeats establish file preservation, not semantic completeness. Configured models and historical model use do not prove current account availability.
+- Generated-Agent discovery/invocation, real runtime enforcement, measured performance/cost savings, all programming languages and broad OS/model/provider compatibility remain unverified. Authenticated behavior evidence is from Windows; Linux/macOS evidence is static CI.
+
+Review the proposed rules against applicable assignments and conditional exceptions before using them for project work. The guarded helper protects file application, not the executing model's judgment or another program's direct writes. No additional model sessions were used to turn retained failures into passes.
+
+## Stable release decision
 
 The [release checklist](https://github.com/ChiwooSong/configure-subagents/blob/main/docs/V1_RELEASE_CHECKLIST.md) separates release-blocking installer/validator/application-tool defects from documented AI/host judgment limits. It no longer requires three flawless semantic apply/repeat pairs. Retained failures are reviewed, not erased by rerunning until green.
 
-Stable publication follows final-RC automated checks, exact-artifact installation/update checks, the scoped 22-session campaign, public results/limits and an explicit maintainer decision. Real Agent execution, model access, measured performance/savings and broad language/platform coverage remain unverified unless separately observed. Both-host instructions do not imply identical capability controls or provider model names.
+The maintainer approved stable 1.0.0 on November 3, 2026, accepting the disclosed limits and skipping rc.2. The installed Skill bytes remain those evaluated in rc.1. Final exact-commit CI, tarball checks and public-registry verification accompany the [1.0.0 release](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0). Both-host instructions do not imply identical capability controls or provider model names.
 
 ## License
 
