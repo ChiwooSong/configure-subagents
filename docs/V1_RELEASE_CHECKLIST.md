@@ -1,6 +1,6 @@
 # 1.0.0 release checklist
 
-Updated: 2026-11-03 (Asia/Seoul). **RC published; installed-artifact behavior evaluation is in progress. Stable publication requires a separate maintainer decision.** This replaces the earlier three-flawless-pairs gate following the maintainer's product decision. Historical failures remain evidence, not retroactively passed tests.
+Updated: 2026-11-03 (Asia/Seoul). **RC published; original 22 session outcomes recorded, with 21 native final receipts and one reconciled final report whose native exit is unverified. Stable publication requires a separate maintainer decision.** This replaces the earlier three-flawless-pairs gate following the maintainer's product decision. Historical failures remain evidence, not retroactively passed tests.
 
 ## Product contract
 
@@ -22,21 +22,32 @@ Updated: 2026-11-03 (Asia/Seoul). **RC published; installed-artifact behavior ev
 
 The [RC report](../evals/RC1_BEHAVIOR.md) separates target, host, tool result, structured report and semantic assessment. The 22 sessions are bounded evidence, not a success-rate guarantee.
 
-- [ ] Each host: two fresh proposals (default/cross target), two synthetic apply/repeat pairs (default/both), two real-project apply/repeat pairs (default/both), one validation-only session (both).
-- [ ] Inputs and installed Skill bytes frozen; host versions, requested/observed models, commands, identities/bytes/mtimes, failures and approvals recorded.
+- [x] Original 22 sessions attempted: each host has two proposals, two synthetic apply/repeat pairs, two real-project pairs and one validation-only outcome. Claude validator permission blocks and the last missing exit receipt are explicitly distinguished from passes.
+- [x] Inputs and installed Skill bytes frozen; host versions, requested/observed models, commands, bytes/mtimes, failures and approvals recorded where available. Seven native repeat bindings verified; the last repeat's final report/current files observed, with native start/end binding and return code unverified.
 - [x] Default target and cross-target protected application success plus a same-state no-change repeat observed in each host's synthetic pairs. Authentication/permission blocks are not passes; this does not close real-project coverage.
-- [ ] Real-project source capture includes relevant module wrappers and supporting source. Initial inputs omitted `.mjs`/`.mts`; harness fixed with 116 passing Python tests, corrected cohort decision/evaluation still pending. Retain old outcomes as partial-input evidence.
-- [ ] Both real-project sources preserved; ignored evaluation copies exclude secrets, runtime data and dependencies. External source changes are reported without rollback.
-- [ ] All 22 outcomes retained and classified: tool defect, model/host judgment limit, permission/authentication block or harness defect. No rerun-until-green policy.
-- [ ] Known R8 first-pass/cross-review failures remain disclosed; no intrinsic-model-cause claim, runtime-use claim or cost-saving claim is inferred.
+- [ ] Module-inclusive real-project behavior evaluated or explicitly accepted as unverified in the stable decision. Initial inputs omitted `.mjs`/`.mts`; harness fixed with 116 passing Python tests. The maintainer chose only the original 22 sessions, so no corrected-cohort model runs occur. Retain original real outcomes as partial-input evidence.
+- [x] Evaluation writes scoped to copies, not original projects; conservative filename/header screening and runtime/dependency exclusions documented. Concurrent original changes observed without rollback; no OS-wide tracing claim.
+- [x] All 22 outcomes retained and classified, including capture/evidence gaps. No rerun-until-green policy or replacement model session for the closed last window.
+- [x] Known R8 and current workflow/memory-scope first-pass/cross-review failures remain disclosed; no intrinsic-model-cause, runtime-use or cost-saving claim.
+- [ ] Missing last native exit receipt and Claude validation-only permission block explicitly accepted as unverified in the stable decision, or separately authorized affected checks completed. Reconciled current file equality is not a successful process-exit claim.
 
 ## Compatibility, publication and stable decision
 
-- [ ] Public CLI arguments/paths/outcomes, checker JSON schema/exit codes, parser dependencies, target controls and manual recovery/merge workflows documented.
+- [x] Public CLI arguments/paths/outcomes, checker JSON schema/exit codes, parser dependencies, target controls and manual recovery/merge workflows documented.
 - [x] Package scope/owner, MIT, repository/migration links and Git/tarball contents audited.
-- [x] RC published to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass. `latest` was left at its prior alpha.2 value. [RC release and exact-artifact receipts](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0-rc.1).
-- [ ] Public RC result/limitation ledger complete with commit, CI, installed hashes and exact artifact verification. Host behavior is Windows evidence; cross-platform CI is static evidence.
+- [x] RC published to next; registry integrity/metadata and fresh artifact install/update/conflict/no-op tests pass. On November 3, `latest` moved from alpha.2 to alpha.8 at the maintainer's request; `next` remains rc.1. The alpha tag is not stable approval. [RC release and exact-artifact receipts](https://github.com/ChiwooSong/configure-subagents/releases/tag/v1.0.0-rc.1).
+- [x] Public RC result/limitation ledger includes all 22 outcomes, native evidence gaps, source/CI links, installed hashes and exact artifact verification. Host behavior is Windows evidence; cross-platform CI is static evidence.
 - [ ] Maintainer separately approves stable publication after reviewing results.
 - [ ] Final 1.0.0 metadata/docs/latest channel, exact-commit CI and public artifact verified. A Skill payload change returns to affected RC evaluation; metadata-only promotion does not imply new host runs.
 
 Prior baselines: [alpha.8 model selection](../evals/MODEL_SELECTION_BEHAVIOR.md), [R8 source retrieval](../evals/RETRIEVAL_AUDIT_BEHAVIOR.md), [updates](../evals/UPDATE_COMMAND.md). They do not substitute for the installed RC campaign.
+
+## Whether to create rc.2
+
+An rc.2 is needed when a new distributable change warrants another candidate, not merely because rc.1 evaluation ended. No release-blocking shipped file-tool defect was observed in this bounded campaign. The module-capture correction changes development QA, not the 14 installed Skill files.
+
+1. Close and publish the result/limitation ledger, distinguish model judgment limits from reproducible tool defects, and decide what concrete payload change (if any) is needed. Keep the documented incomplete-input and native-exit scopes visible.
+2. If changing the Skill, add verified pristine rc.1 upgrade fingerprints, keep customization/Agent preservation, run all automatic/CI/tarball gates, and evaluate the affected behavior using the new installed candidate. Do not inherit old behavior results for changed Skill bytes or require flawless AI semantics. No further model calls are authorized by this checklist alone.
+3. Publish a changed candidate as rc.2 to `next`, verify registry/artifact installation and disclose its evidence. If shipping payload changes are unnecessary, the maintainer may instead review rc.1 for stable promotion while explicitly accepting unverified scopes; rc.2 is not a mandatory milestone.
+
+Stable readiness depends on accepted evidence and final checks, not a fixed waiting period or a required number of RCs. No release date is promised before the maintainer's decision. Stable metadata, final exact-commit CI and tarball/registry verification remain required after that decision.

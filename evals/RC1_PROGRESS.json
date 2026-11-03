@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "in_progress_real_capture_coverage_gap",
-  "updated_at": "2026-11-03T02:05:19.921634+00:00",
+  "status": "original_matrix_outcomes_recorded_with_capture_gap_and_one_native_exit_unverified",
+  "updated_at": "2026-11-03T12:32:55.982589+00:00",
   "package": "@woody_s/configure-subagents",
   "version": "1.0.0-rc.1",
   "rc_commit": "f047ff791adac4991df52683ca06d984a89ce012",
@@ -51,7 +51,7 @@
     }
   },
   "planned_session_count": 22,
-  "final_receipt_count": 19,
+  "final_receipt_count": 21,
   "sessions": [
     {
       "host": "claude",
@@ -191,6 +191,46 @@
     },
     {
       "host": "claude",
+      "job": "real-both-apply",
+      "target": "both",
+      "process_status": "finished",
+      "capture_scope": "module_source_omission",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "33a577580c833bb1d20a5d963304d9dd5f70196d3b5ff6ad228a47dcd4a55f7a",
+      "private_receipt_sha256": "0c1effb4a173fbff2a1b0934ce8b88b447f3490d5f940d8d823113df4eabe4a2",
+      "workspace_bytes_mtimes_unchanged": false,
+      "changed_path_count": 20,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_and_observed_unchanged_repeat_with_native_exit_unverified",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "mosigi:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
       "job": "real-default-apply",
       "target": "claude",
       "process_status": "finished",
@@ -209,7 +249,39 @@
       "installed_skill_unchanged": true,
       "structured_report_shape": true,
       "independent_review_available": true,
-      "review_classification": "guarded_apply_with_incomplete_capture_and_semantic_scope_concern",
+      "review_classification": "guarded_apply_and_unchanged_repeat_with_limited_input_and_semantic_scope_concern",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        }
+      }
+    },
+    {
+      "host": "claude",
+      "job": "real-default-repeat",
+      "target": "claude",
+      "process_status": "finished",
+      "capture_scope": "module_source_omission",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "013439faf75936b0ea0f0db6e27d0da42e9b299d978596bc3d0d251da50ec875",
+      "private_receipt_sha256": "1695d5a73df5f2d642252b4133aaf8a9511ff5725ad1e65ff9dbd1c94ccef308",
+      "workspace_bytes_mtimes_unchanged": true,
+      "changed_path_count": 0,
+      "outside_selected_scope_count": 0,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_and_unchanged_repeat_with_limited_input_and_semantic_scope_concern",
       "independent_static_checks": {
         "mosigi:claude": {
           "files_checked": 2,
@@ -846,16 +918,60 @@
           "exit_code": 0
         }
       }
+    },
+    {
+      "host": "claude",
+      "job": "real-both-repeat",
+      "target": "both",
+      "process_status": "report_observed_native_exit_unverified",
+      "record_origin": "independent_reconciliation_not_native_session_exit_receipt",
+      "returncode": null,
+      "capture_scope": "module_source_omission",
+      "host_version": "2.1.317 (Claude Code)",
+      "requested_model": "claude-opus-5-5",
+      "observed_models": [
+        "claude-opus-5-5"
+      ],
+      "actual_model_unverified": false,
+      "input_sha256": "33a577580c833bb1d20a5d963304d9dd5f70196d3b5ff6ad228a47dcd4a55f7a",
+      "private_observation_sha256": "85aa7310072218a670bb38467098bbdfbe8642f70c72ddb661d2db8e2c98c76c",
+      "workspace_bytes_mtimes_unchanged": null,
+      "changed_path_count": null,
+      "outside_selected_scope_count": null,
+      "current_snapshot_matches_recorded_apply_output": true,
+      "repeat_start_snapshot_independently_recovered": false,
+      "installed_skill_unchanged": true,
+      "structured_report_shape": true,
+      "independent_review_available": true,
+      "review_classification": "guarded_apply_and_observed_unchanged_repeat_with_native_exit_unverified",
+      "independent_static_checks": {
+        "mosigi:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "signal_flare:claude": {
+          "files_checked": 2,
+          "exit_code": 0
+        },
+        "mosigi:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        },
+        "signal_flare:codex": {
+          "files_checked": 1,
+          "exit_code": 0
+        }
+      }
     }
   ],
   "limits": [
     "Process status and report shape are not semantic pass verdicts.",
     "Static checks on empty proposal directories do not validate proposed configuration strings.",
     "Claude validation commands were denied by native noninteractive permission policy; not host validation success.",
-    "Initial real-project capture omitted .mjs/.cjs/.mts/.cts sources. Five retained real-session outcomes have incomplete source context, not absent original scripts.",
-    "Corrected module-inclusive capture prepared; replacing the real cohort with eight fresh sessions is awaiting user scope decision.",
+    "Initial real-project capture omitted .mjs/.cjs/.mts/.cts sources. All 8 retained real-session outcomes have incomplete source context, not absent original scripts.",
+    "Maintainer chose only the original 22 sessions; corrected module-inclusive captures are prepared but no model runs use them. Real-project behavior retains the input coverage limitation.",
     "Codex synthetic-both repeat encountered native 429 and completed after CLI retry in the same session.",
-    "3 planned sessions lack final receipts; native interactive approvals/exits may be required.",
+    "21 native final receipts; last Claude real-both repeat has a final report and independently matching current apply-output bytes/mtimes, but window closed without a native exit receipt. Return code and persisted repeat-start/end binding unverified; no replacement session.",
     "Original selected file observations changed during concurrent development; frozen copies used, originals not rolled back.",
     "Workspace snapshots are not OS-wide write tracing.",
     "No generated-Agent calls, measured performance/savings or actual fixture-model access verified."
@@ -867,5 +983,11 @@
       "__pycache__",
       "host-maintained runtime storage outside evaluation workspace"
     ]
+  },
+  "observed_session_count": 22,
+  "reconciled_observation_count": 1,
+  "distribution_tags_observed": {
+    "latest": "0.1.0-alpha.8",
+    "next": "1.0.0-rc.1"
   }
 }
